@@ -38,7 +38,7 @@ package app
 		/**
 		 *权限验证成功
 		 */		
-		//public static const NOTIFY_INIT_AUTH:String					= "InitAuth";
+		public static const NOTIFY_INIT_AUTH:String					= "InitAuth";
 		
 		/**
 		 *程序初始化完成

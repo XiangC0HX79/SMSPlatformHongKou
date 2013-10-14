@@ -68,6 +68,8 @@ package app.view
 						socket.sendSMS(SocketProxy.METHOD_LOGIN,user.phone,"","000");
 						
 						login.visible = false;
+						
+						sendNotification(AppNotification.NOTIFY_INIT_AUTH,user.phone);
 						break;
 					
 					//用户不存在

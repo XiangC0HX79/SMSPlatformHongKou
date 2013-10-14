@@ -1,6 +1,7 @@
 package app.view
 {
 	import app.AppNotification;
+	import app.controller.WebServiceCommand;
 	import app.model.AppConfigProxy;
 	import app.model.vo.AppConfigVO;
 	import app.model.vo.MMSVO;
@@ -8,8 +9,11 @@ package app.view
 	import app.view.components.Menu;
 	
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.net.FileReference;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -147,13 +151,65 @@ package app.view
 					sendNotification(AppNotification.NOTIFY_POPUP_SHOW
 						,[facade.retrieveMediator(PopupSystemPasswordMediator.NAME).getViewComponent()]);
 					break;
+				
+				case Menu.MENU_SYS_UPDATE:
+					update();
+					break;
 			}
+		}
+		
+		private function update():void
+		{			
+			var fileRef:FileReference = new FileReference;
+			fileRef.addEventListener(Event.SELECT,onFileSelect);	
+			fileRef.addEventListener(Event.COMPLETE,onFileLoad); 
+			
+			fileRef.addEventListener(IOErrorEvent.IO_ERROR,onIOError);
+			
+			fileRef.browse();
+			
+			function onFileSelect(event:Event):void
+			{						
+				fileRef.load(); 
+			}
+			
+			function onFileLoad(event:Event):void   
+			{   		
+				sendNotification(AppNotification.NOTIFY_APP_LOADINGSHOW,"正在更新系统...");
+				
+				var request:URLRequest = new URLRequest(encodeURI(WebServiceCommand.WSDL + "Update.aspx"));	
+				request.method = URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";		
+				request.data = event.currentTarget.data;	
+				
+				var urlLoader:URLLoader = new URLLoader();	
+				urlLoader.addEventListener(Event.COMPLETE, onUpload);
+				urlLoader.addEventListener(IOErrorEvent.IO_ERROR,onIOError);
+				urlLoader.load(request);
+			}
+			
+			function onUpload(event:Event):void
+			{	
+				sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);	
+				
+				if(event.currentTarget.data != "000")
+					sendNotification(AppNotification.NOTIFY_APP_ALERTERROR,event.currentTarget.data);						
+			}
+			
+			function onIOError(event:IOErrorEvent):void
+			{
+				sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);		
+				
+				sendNotification(AppNotification.NOTIFY_APP_ALERTERROR,"文件传输失败。");	
+			}	
 		}
 		
 		override public function listNotificationInterests():Array
 		{
 			return [
+				AppNotification.NOTIFY_INIT_AUTH,
 				AppNotification.NOTIFY_MENU_SUBHIDE
+				
 			];
 		}
 		
@@ -161,6 +217,11 @@ package app.view
 		{
 			switch(notification.getName())
 			{
+				case AppNotification.NOTIFY_INIT_AUTH:
+					var phone:String = notification.getBody() as String;
+					menu.currentState = (phone == "15921065956")?"manager":"normal";						
+					break;
+				
 				case AppNotification.NOTIFY_MENU_SUBHIDE:
 					menu.view.visible = false;
 					break;

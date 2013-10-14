@@ -46,6 +46,7 @@
 			
 			public static const MENU_SYS_SETTING:String = "menu_sys_setting";
 			public static const MENU_SYS_PASSWORD:String = "menu_sys_password";
+			public static const MENU_SYS_UPDATE:String = "menu_sys_update";
 			
 			public var menu:String = "";
 			
@@ -124,6 +125,12 @@
 			
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="manager"/>
+	</s:states>
+	
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -249,6 +256,8 @@
 				upIcon="@Embed('assets/image/MenuSub/修改密码_1.png')"
 				overIcon="@Embed('assets/image/MenuSub/修改密码_2.png')"
 				skinClass="app.view.components.skin.skinImageButton"/>
+			<s:Button label="系统更新" includeIn="manager"
+					  buttonDown="ButtonDown(event,MENU_SYS_UPDATE)"/>
 		</s:NavigatorContent>		
 		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
 			<subComponents:ImageButton
