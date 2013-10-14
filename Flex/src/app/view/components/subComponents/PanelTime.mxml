@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup width="100%" verticalAlign="middle" gap="2"
+		  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Metadata>
+		[Event(name="change",type ="flash.events.Event")]  
+	</fx:Metadata>
+		
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.charts.chartClasses.DataDescription;
+			import mx.events.CalendarLayoutChangeEvent;
+			
+			import spark.formatters.DateTimeFormatter;
+			
+			private var _beginTime:Date = new Date;
+			[Bindable]
+			public function get beginTime():Date{return _beginTime;}
+			public function set beginTime(value:Date):void
+			{
+				_beginTime = value;
+				
+				beginDate.selectedDate = _beginTime;
+				beginHour.value = _beginTime.hours;
+				beginMin.value = _beginTime.minutes;
+			}
+						
+			protected function beginDateChange():void
+			{
+				var tempBeginTime:Date = new Date(
+					beginDate.selectedDate.fullYear, 
+					beginDate.selectedDate.month, 
+					beginDate.selectedDate.date, 
+					beginHour.value,
+					beginMin.value
+				);
+				
+				tempBeginTime = new Date(tempBeginTime.time + 8*60*60*1000);
+									
+				change();
+			}
+			
+			protected function change():void
+			{
+				var tempBeginTime:Date = new Date(
+					beginDate.selectedDate.fullYear, 
+					beginDate.selectedDate.month, 
+					beginDate.selectedDate.date, 
+					beginHour.value,
+					beginMin.value
+					);
+				
+				_beginTime = tempBeginTime;
+				
+				dispatchEvent(new Event(Event.CHANGE));
+			}			
+		]]>
+	</fx:Script>
+	
+	<mx:DateField id="beginDate" selectedDate="{beginTime}" width="50%"
+				  dayNames="['日', '一', '二', '三', '四', '五', '六']"
+				  formatString="YYYY-MM-DD"
+				  monthNames="['一月', '二月', '三月', '四月', '五月',
+				  '六月', '七月', '八月', '九月', '十月', '十一月',
+				  '十二月']" change="beginDateChange()"/>
+	<s:NumericStepper id="beginHour" width="20%" maximum="23" change="beginDateChange()"
+					  skinClass="app.view.components.skin.skinNumericStepperDateSelect"/>
+	<s:NumericStepper id="beginMin" width="20%" maximum="59"	change="beginDateChange()"
+					  skinClass="app.view.components.skin.skinNumericStepperDateSelect" />
+</s:HGroup>

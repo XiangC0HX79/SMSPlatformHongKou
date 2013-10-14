@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="600" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="批量生日短信"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%">
+			<s:Label text="从"/>
+			<subComponents:PanelTime/>
+			<s:Label text="到"/>
+			<subComponents:PanelTime/>
+			<s:Button label="查询" 
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:VGroup>
+				<s:Label text="短信内容："/>			
+				<s:TextArea width="100%" height="100" id="textPhrase"/>				
+			</s:VGroup>
+			<s:VGroup>		
+				<s:HGroup verticalAlign="middle">
+					<s:Label text="提前"/>
+					<s:NumericStepper/>
+					<s:Label text="天"/>
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle">
+					<s:Label text="发送时间"/>					
+					<s:NumericStepper/>
+					<s:Label text="："/>
+					<s:NumericStepper/>
+				</s:HGroup>	
+			</s:VGroup>
+		</s:HGroup>
+		<s:DataGrid id="gridPhrase" requestedRowCount="6" width="100%">
+			<s:columns>
+				<s:ArrayList>
+					<s:GridColumn dataField="message" headerText="姓名"></s:GridColumn>
+					<s:GridColumn dataField="message" headerText="手机号码"></s:GridColumn>
+					<s:GridColumn dataField="message" headerText="生日" width="200"></s:GridColumn>
+				</s:ArrayList>
+			</s:columns>
+		</s:DataGrid>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Button label="确定" 
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="取消"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

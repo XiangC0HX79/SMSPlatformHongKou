@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"			   
+			   xmlns:components="app.view.components.*"
+			   creationComplete="facade.startup(this)" 
+			   preloader="app.view.components.subComponents.AppDownloadProgressBar">
+	<fx:Style source="Main.css"/>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import app.ApplicationFacade;
+			
+			private var facade:ApplicationFacade = ApplicationFacade.getInstance();			
+		]]>
+	</fx:Script>
+	
+	<s:Group  left="0" top="0" right="0" bottom="0">
+		<s:Image left="185" right="0" height="100%" source="assets/image/back.jpg" scaleMode="stretch"/>
+		<s:Image source="assets/image/back_left.jpg" height="100%" scaleMode="stretch"/>
+		<components:LeftPanel id="leftPanel" y="104" height="100%"/>
+		<s:Group left="190" top="105" right="5" bottom="5" id="mainPanel"/>
+		<components:Menu id="menu" width="100%"/>
+	</s:Group>
+	<components:Login id="login" left="0" top="0" right="0" bottom="0"/>
+	
+	<components:PopupManager id="popupManager" left="0" top="0" right="0" bottom="0" visible="false"/>
+	
+	<components:AppLoadingBar id="appLoadingBar"  left="0" top="0" right="0" bottom="0"/>
+</s:Application>

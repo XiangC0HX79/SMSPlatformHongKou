@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  enableIcon="false" width="100%" height="100%"
+							  enableMinimizeButton="false" panelTitle="发送彩信"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import app.controller.WebServiceCommand;
+			import app.model.vo.MMSVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.INavigatorContent;
+			import mx.events.FlexEvent;
+			
+			public static const SAVE:String = "saveMMS";
+			public static const SEND:String = "sendMMS";
+			
+			public static const OPENWORD:String = "openWord";
+			public static const SETWORD:String = "setWord";
+			public static const ERRORWORD:String = "errorWord";
+			
+			[Bindable]public var MMS:MMSVO = new MMSVO;
+			
+			[Bindable]public var listPhone:ArrayCollection = new ArrayCollection;
+			
+			protected function addParButtonDownHandler(event:FlexEvent):void
+			{
+				var navi:NavigatorContent = new NavigatorContent;						
+				var par:PanelMMSPar = new PanelMMSPar;
+				navi.label = "第" + (view.numChildren + 1).toString() + "页";
+				navi.addElement(par);
+				view.addItem(navi);
+								
+				MMS.pares.addItem(par.MMSPar);
+			}
+			
+			protected function delParButtonDownHandler(event:FlexEvent):void
+			{
+				if(view.numChildren > 1)
+				{
+					var index:Number = view.selectedIndex;
+					
+					view.removeItemAt(index);
+					MMS.pares.removeItemAt(index);
+					
+					for(var i:Number = 0;i<view.numChildren;i++)
+					{
+						var navi:NavigatorContent =  view.getItemAt(i) as NavigatorContent;
+						navi.label = "第" + (i+1).toString() + "页";
+					}
+				}
+			}
+			
+			protected function sendButtonDownHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			private var file:FileReference = new FileReference;
+			protected function wordButtonDownHandler(event:FlexEvent):void
+			{
+				var wordTypes:FileFilter = new FileFilter("Word文档 (*.doc)", "*.doc");
+				file.browse([wordTypes]);
+				file.addEventListener(Event.SELECT,onFileSelect);				
+			}
+			
+			private function onFileSelect(event:Event):void
+			{				
+				dispatchEvent(new Event(OPENWORD));
+				
+				file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA,onFileUpload);
+				
+				var request:URLRequest = new URLRequest(WebServiceCommand.WSDL + "WordService.aspx");
+				file.upload(request);
+			}
+			
+			private function onFileUpload(event:DataEvent):void
+			{
+				var result:XML = XML(event.data);
+				if(String(result.ID) != "-1")
+				{
+					var mms:MMSVO = new MMSVO();
+					mms.ID = result.ID;
+					
+					this.MMS.copy(mms);
+					
+					dispatchEvent(new Event(SETWORD));
+				}
+				else
+				{					
+					dispatchEvent(new Event(ERRORWORD));
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="textTitle.text" destination="MMS.name" twoWay="true"/>
+	
+	<s:VGroup width="100%">
+		<s:HGroup width="100%" verticalAlign="middle">
+			<subComponents:PanelSelectContact id="panelSelectContact"/>
+			<s:VGroup width="100%" height="100%">								
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="主题"/>
+					<s:TextInput width="200" id="textTitle"/>
+					<s:Button label="导入Word" buttonDown="wordButtonDownHandler(event)"
+							  skinClass="app.view.components.skin.skinButton"/>		
+					<s:Button label="增加页" buttonDown="addParButtonDownHandler(event)"
+							  skinClass="app.view.components.skin.skinButton"/>		
+					<s:Button label="删除页" buttonDown="delParButtonDownHandler(event)"
+							  skinClass="app.view.components.skin.skinButton"/>	
+				</s:HGroup>
+				<s:Label text="所有内容不能超过60K!"/>
+				<s:TabBar dataProvider="{view}"/>
+				<mx:ViewStack id="view" width="100%" height="100%" 
+							  borderStyle="solid" borderVisible="true"
+							  paddingBottom="2" paddingLeft="2" paddingRight="2" paddingTop="2">
+					<s:NavigatorContent label="第一页">
+						<subComponents:PanelMMSPar/>
+					</s:NavigatorContent>
+				</mx:ViewStack>
+			</s:VGroup>
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="保存到草稿箱" buttonDown="dispatchEvent(new Event(SAVE));"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<!--<s:Button label="定时发送"
+					  skinClass="app.view.components.skin.skinButton"/>		-->	
+			<s:Button label="发送彩信" buttonDown="dispatchEvent(new Event(SEND));"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

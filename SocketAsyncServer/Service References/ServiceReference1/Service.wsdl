@@ -1,0 +1,1776 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSysParam">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSysParamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSysParamResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSysParam">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="paramName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="paramValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetSysParamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetSysParamResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetContact">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetContactResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteContactResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="contactId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="group" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="grouppost" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetContactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetContactResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGroup">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGroupResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Login">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="passWord" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActiveUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActiveUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ActiveUserResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldPws" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newPws" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetPasswordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTask">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTaskResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTaskResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteTask">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="taskName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteTaskResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteTaskResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetTask">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="taskName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskPhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskMessage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskPeoples" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetTaskResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetTaskResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetHoliday">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetHolidayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetHolidayResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteHoliday">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteHolidayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteHolidayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetHoliday">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="draftID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftMonth" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftMessage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetHolidayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetHolidayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDraft">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDraftResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDraftResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDraft">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="draftID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteDraftResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteDraftResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDraft">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="draftID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftPhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="draftMessage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="people" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetDraftResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetDraftResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetReceive">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReceiveResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSendResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteSendResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertSendResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msgID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateSendResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPhraseGroup">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPhraseGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPhraseGroupResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePhraseGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePhraseGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeletePhraseGroupResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPhraseGroup">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPhraseGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetPhraseGroupResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPhrase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPhraseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPhraseResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePhrase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeletePhraseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeletePhraseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPhrase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPhraseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetPhraseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMMSResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMMSFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMMSFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMMSFileResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mmsID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="title" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="people" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveMMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveMMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveMMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteMMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMail">
+        <s:complexType />
+      </s:element>
+      <s:element name="SetMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetMailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="toMail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailTitle" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mailMain" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendMailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSysParamSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSysParam" />
+  </wsdl:message>
+  <wsdl:message name="GetSysParamSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSysParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetSysParamSoapIn">
+    <wsdl:part name="parameters" element="tns:SetSysParam" />
+  </wsdl:message>
+  <wsdl:message name="SetSysParamSoapOut">
+    <wsdl:part name="parameters" element="tns:SetSysParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetContactSoapIn">
+    <wsdl:part name="parameters" element="tns:GetContact" />
+  </wsdl:message>
+  <wsdl:message name="GetContactSoapOut">
+    <wsdl:part name="parameters" element="tns:GetContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteContactSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteContact" />
+  </wsdl:message>
+  <wsdl:message name="DeleteContactSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetContactSoapIn">
+    <wsdl:part name="parameters" element="tns:SetContact" />
+  </wsdl:message>
+  <wsdl:message name="SetContactSoapOut">
+    <wsdl:part name="parameters" element="tns:SetContactResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGroup" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapIn">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="LoginSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActiveUserSoapIn">
+    <wsdl:part name="parameters" element="tns:ActiveUser" />
+  </wsdl:message>
+  <wsdl:message name="ActiveUserSoapOut">
+    <wsdl:part name="parameters" element="tns:ActiveUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPassword" />
+  </wsdl:message>
+  <wsdl:message name="SetPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTaskSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTask" />
+  </wsdl:message>
+  <wsdl:message name="GetTaskSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteTaskSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteTask" />
+  </wsdl:message>
+  <wsdl:message name="DeleteTaskSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetTaskSoapIn">
+    <wsdl:part name="parameters" element="tns:SetTask" />
+  </wsdl:message>
+  <wsdl:message name="SetTaskSoapOut">
+    <wsdl:part name="parameters" element="tns:SetTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetHolidaySoapIn">
+    <wsdl:part name="parameters" element="tns:GetHoliday" />
+  </wsdl:message>
+  <wsdl:message name="GetHolidaySoapOut">
+    <wsdl:part name="parameters" element="tns:GetHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteHolidaySoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteHoliday" />
+  </wsdl:message>
+  <wsdl:message name="DeleteHolidaySoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetHolidaySoapIn">
+    <wsdl:part name="parameters" element="tns:SetHoliday" />
+  </wsdl:message>
+  <wsdl:message name="SetHolidaySoapOut">
+    <wsdl:part name="parameters" element="tns:SetHolidayResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDraftSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDraft" />
+  </wsdl:message>
+  <wsdl:message name="GetDraftSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDraftResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDraftSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteDraft" />
+  </wsdl:message>
+  <wsdl:message name="DeleteDraftSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteDraftResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetDraftSoapIn">
+    <wsdl:part name="parameters" element="tns:SetDraft" />
+  </wsdl:message>
+  <wsdl:message name="SetDraftSoapOut">
+    <wsdl:part name="parameters" element="tns:SetDraftResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReceive" />
+  </wsdl:message>
+  <wsdl:message name="GetReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteReceive" />
+  </wsdl:message>
+  <wsdl:message name="DeleteReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:SetReceive" />
+  </wsdl:message>
+  <wsdl:message name="SetReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:SetReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSendSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSend" />
+  </wsdl:message>
+  <wsdl:message name="GetSendSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSendSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteSend" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSendSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertSendSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertSend" />
+  </wsdl:message>
+  <wsdl:message name="InsertSendSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSendSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateSend" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSendSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPhraseGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPhraseGroup" />
+  </wsdl:message>
+  <wsdl:message name="GetPhraseGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPhraseGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeletePhraseGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:DeletePhraseGroup" />
+  </wsdl:message>
+  <wsdl:message name="DeletePhraseGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:DeletePhraseGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPhraseGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPhraseGroup" />
+  </wsdl:message>
+  <wsdl:message name="SetPhraseGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPhraseGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPhraseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPhrase" />
+  </wsdl:message>
+  <wsdl:message name="GetPhraseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPhraseResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeletePhraseSoapIn">
+    <wsdl:part name="parameters" element="tns:DeletePhrase" />
+  </wsdl:message>
+  <wsdl:message name="DeletePhraseSoapOut">
+    <wsdl:part name="parameters" element="tns:DeletePhraseResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPhraseSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPhrase" />
+  </wsdl:message>
+  <wsdl:message name="SetPhraseSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPhraseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMMSSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMMS" />
+  </wsdl:message>
+  <wsdl:message name="GetMMSSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMMSFileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMMSFile" />
+  </wsdl:message>
+  <wsdl:message name="GetMMSFileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMMSFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMMS" />
+  </wsdl:message>
+  <wsdl:message name="SetMMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveMMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveMMS" />
+  </wsdl:message>
+  <wsdl:message name="SaveMMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveMMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMMS" />
+  </wsdl:message>
+  <wsdl:message name="SendMMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMMSSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMMS" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMMSSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMail" />
+  </wsdl:message>
+  <wsdl:message name="SetMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="SendMailSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSysParam">
+      <wsdl:input message="tns:GetSysParamSoapIn" />
+      <wsdl:output message="tns:GetSysParamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSysParam">
+      <wsdl:input message="tns:SetSysParamSoapIn" />
+      <wsdl:output message="tns:SetSysParamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContact">
+      <wsdl:input message="tns:GetContactSoapIn" />
+      <wsdl:output message="tns:GetContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteContact">
+      <wsdl:input message="tns:DeleteContactSoapIn" />
+      <wsdl:output message="tns:DeleteContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetContact">
+      <wsdl:input message="tns:SetContactSoapIn" />
+      <wsdl:output message="tns:SetContactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroup">
+      <wsdl:input message="tns:GetGroupSoapIn" />
+      <wsdl:output message="tns:GetGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <wsdl:input message="tns:LoginSoapIn" />
+      <wsdl:output message="tns:LoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActiveUser">
+      <wsdl:input message="tns:ActiveUserSoapIn" />
+      <wsdl:output message="tns:ActiveUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPassword">
+      <wsdl:input message="tns:SetPasswordSoapIn" />
+      <wsdl:output message="tns:SetPasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTask">
+      <wsdl:input message="tns:GetTaskSoapIn" />
+      <wsdl:output message="tns:GetTaskSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <wsdl:input message="tns:DeleteTaskSoapIn" />
+      <wsdl:output message="tns:DeleteTaskSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetTask">
+      <wsdl:input message="tns:SetTaskSoapIn" />
+      <wsdl:output message="tns:SetTaskSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <wsdl:input message="tns:GetHolidaySoapIn" />
+      <wsdl:output message="tns:GetHolidaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <wsdl:input message="tns:DeleteHolidaySoapIn" />
+      <wsdl:output message="tns:DeleteHolidaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetHoliday">
+      <wsdl:input message="tns:SetHolidaySoapIn" />
+      <wsdl:output message="tns:SetHolidaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDraft">
+      <wsdl:input message="tns:GetDraftSoapIn" />
+      <wsdl:output message="tns:GetDraftSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDraft">
+      <wsdl:input message="tns:DeleteDraftSoapIn" />
+      <wsdl:output message="tns:DeleteDraftSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDraft">
+      <wsdl:input message="tns:SetDraftSoapIn" />
+      <wsdl:output message="tns:SetDraftSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReceive">
+      <wsdl:input message="tns:GetReceiveSoapIn" />
+      <wsdl:output message="tns:GetReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReceive">
+      <wsdl:input message="tns:DeleteReceiveSoapIn" />
+      <wsdl:output message="tns:DeleteReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetReceive">
+      <wsdl:input message="tns:SetReceiveSoapIn" />
+      <wsdl:output message="tns:SetReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSend">
+      <wsdl:input message="tns:GetSendSoapIn" />
+      <wsdl:output message="tns:GetSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSend">
+      <wsdl:input message="tns:DeleteSendSoapIn" />
+      <wsdl:output message="tns:DeleteSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertSend">
+      <wsdl:input message="tns:InsertSendSoapIn" />
+      <wsdl:output message="tns:InsertSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSend">
+      <wsdl:input message="tns:UpdateSendSoapIn" />
+      <wsdl:output message="tns:UpdateSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPhraseGroup">
+      <wsdl:input message="tns:GetPhraseGroupSoapIn" />
+      <wsdl:output message="tns:GetPhraseGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhraseGroup">
+      <wsdl:input message="tns:DeletePhraseGroupSoapIn" />
+      <wsdl:output message="tns:DeletePhraseGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPhraseGroup">
+      <wsdl:input message="tns:SetPhraseGroupSoapIn" />
+      <wsdl:output message="tns:SetPhraseGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPhrase">
+      <wsdl:input message="tns:GetPhraseSoapIn" />
+      <wsdl:output message="tns:GetPhraseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhrase">
+      <wsdl:input message="tns:DeletePhraseSoapIn" />
+      <wsdl:output message="tns:DeletePhraseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPhrase">
+      <wsdl:input message="tns:SetPhraseSoapIn" />
+      <wsdl:output message="tns:SetPhraseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMMS">
+      <wsdl:input message="tns:GetMMSSoapIn" />
+      <wsdl:output message="tns:GetMMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMMSFile">
+      <wsdl:input message="tns:GetMMSFileSoapIn" />
+      <wsdl:output message="tns:GetMMSFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMMS">
+      <wsdl:input message="tns:SetMMSSoapIn" />
+      <wsdl:output message="tns:SetMMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMMS">
+      <wsdl:input message="tns:SaveMMSSoapIn" />
+      <wsdl:output message="tns:SaveMMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMMS">
+      <wsdl:input message="tns:SendMMSSoapIn" />
+      <wsdl:output message="tns:SendMMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMMS">
+      <wsdl:input message="tns:DeleteMMSSoapIn" />
+      <wsdl:output message="tns:DeleteMMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMail">
+      <wsdl:input message="tns:SetMailSoapIn" />
+      <wsdl:output message="tns:SetMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <wsdl:input message="tns:SendMailSoapIn" />
+      <wsdl:output message="tns:SendMailSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysParam">
+      <soap:operation soapAction="http://tempuri.org/GetSysParam" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSysParam">
+      <soap:operation soapAction="http://tempuri.org/SetSysParam" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContact">
+      <soap:operation soapAction="http://tempuri.org/GetContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteContact">
+      <soap:operation soapAction="http://tempuri.org/DeleteContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContact">
+      <soap:operation soapAction="http://tempuri.org/SetContact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroup">
+      <soap:operation soapAction="http://tempuri.org/GetGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActiveUser">
+      <soap:operation soapAction="http://tempuri.org/ActiveUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPassword">
+      <soap:operation soapAction="http://tempuri.org/SetPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTask">
+      <soap:operation soapAction="http://tempuri.org/GetTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <soap:operation soapAction="http://tempuri.org/DeleteTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTask">
+      <soap:operation soapAction="http://tempuri.org/SetTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <soap:operation soapAction="http://tempuri.org/GetHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <soap:operation soapAction="http://tempuri.org/DeleteHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetHoliday">
+      <soap:operation soapAction="http://tempuri.org/SetHoliday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDraft">
+      <soap:operation soapAction="http://tempuri.org/GetDraft" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDraft">
+      <soap:operation soapAction="http://tempuri.org/DeleteDraft" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDraft">
+      <soap:operation soapAction="http://tempuri.org/SetDraft" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReceive">
+      <soap:operation soapAction="http://tempuri.org/GetReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReceive">
+      <soap:operation soapAction="http://tempuri.org/DeleteReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetReceive">
+      <soap:operation soapAction="http://tempuri.org/SetReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSend">
+      <soap:operation soapAction="http://tempuri.org/GetSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSend">
+      <soap:operation soapAction="http://tempuri.org/DeleteSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertSend">
+      <soap:operation soapAction="http://tempuri.org/InsertSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSend">
+      <soap:operation soapAction="http://tempuri.org/UpdateSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhraseGroup">
+      <soap:operation soapAction="http://tempuri.org/GetPhraseGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhraseGroup">
+      <soap:operation soapAction="http://tempuri.org/DeletePhraseGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPhraseGroup">
+      <soap:operation soapAction="http://tempuri.org/SetPhraseGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhrase">
+      <soap:operation soapAction="http://tempuri.org/GetPhrase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhrase">
+      <soap:operation soapAction="http://tempuri.org/DeletePhrase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPhrase">
+      <soap:operation soapAction="http://tempuri.org/SetPhrase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMMS">
+      <soap:operation soapAction="http://tempuri.org/GetMMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMMSFile">
+      <soap:operation soapAction="http://tempuri.org/GetMMSFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMMS">
+      <soap:operation soapAction="http://tempuri.org/SetMMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMMS">
+      <soap:operation soapAction="http://tempuri.org/SaveMMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMMS">
+      <soap:operation soapAction="http://tempuri.org/SendMMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMMS">
+      <soap:operation soapAction="http://tempuri.org/DeleteMMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMail">
+      <soap:operation soapAction="http://tempuri.org/SetMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysParam">
+      <soap12:operation soapAction="http://tempuri.org/GetSysParam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSysParam">
+      <soap12:operation soapAction="http://tempuri.org/SetSysParam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContact">
+      <soap12:operation soapAction="http://tempuri.org/GetContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteContact">
+      <soap12:operation soapAction="http://tempuri.org/DeleteContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetContact">
+      <soap12:operation soapAction="http://tempuri.org/SetContact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroup">
+      <soap12:operation soapAction="http://tempuri.org/GetGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Login">
+      <soap12:operation soapAction="http://tempuri.org/Login" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActiveUser">
+      <soap12:operation soapAction="http://tempuri.org/ActiveUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPassword">
+      <soap12:operation soapAction="http://tempuri.org/SetPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTask">
+      <soap12:operation soapAction="http://tempuri.org/GetTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <soap12:operation soapAction="http://tempuri.org/DeleteTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTask">
+      <soap12:operation soapAction="http://tempuri.org/SetTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetHoliday">
+      <soap12:operation soapAction="http://tempuri.org/GetHoliday" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteHoliday">
+      <soap12:operation soapAction="http://tempuri.org/DeleteHoliday" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetHoliday">
+      <soap12:operation soapAction="http://tempuri.org/SetHoliday" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDraft">
+      <soap12:operation soapAction="http://tempuri.org/GetDraft" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteDraft">
+      <soap12:operation soapAction="http://tempuri.org/DeleteDraft" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDraft">
+      <soap12:operation soapAction="http://tempuri.org/SetDraft" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReceive">
+      <soap12:operation soapAction="http://tempuri.org/GetReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteReceive">
+      <soap12:operation soapAction="http://tempuri.org/DeleteReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetReceive">
+      <soap12:operation soapAction="http://tempuri.org/SetReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSend">
+      <soap12:operation soapAction="http://tempuri.org/GetSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSend">
+      <soap12:operation soapAction="http://tempuri.org/DeleteSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertSend">
+      <soap12:operation soapAction="http://tempuri.org/InsertSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSend">
+      <soap12:operation soapAction="http://tempuri.org/UpdateSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhraseGroup">
+      <soap12:operation soapAction="http://tempuri.org/GetPhraseGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhraseGroup">
+      <soap12:operation soapAction="http://tempuri.org/DeletePhraseGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPhraseGroup">
+      <soap12:operation soapAction="http://tempuri.org/SetPhraseGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPhrase">
+      <soap12:operation soapAction="http://tempuri.org/GetPhrase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePhrase">
+      <soap12:operation soapAction="http://tempuri.org/DeletePhrase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPhrase">
+      <soap12:operation soapAction="http://tempuri.org/SetPhrase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMMS">
+      <soap12:operation soapAction="http://tempuri.org/GetMMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMMSFile">
+      <soap12:operation soapAction="http://tempuri.org/GetMMSFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMMS">
+      <soap12:operation soapAction="http://tempuri.org/SetMMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMMS">
+      <soap12:operation soapAction="http://tempuri.org/SaveMMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMMS">
+      <soap12:operation soapAction="http://tempuri.org/SendMMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMMS">
+      <soap12:operation soapAction="http://tempuri.org/DeleteMMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMail">
+      <soap12:operation soapAction="http://tempuri.org/SetMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap12:operation soapAction="http://tempuri.org/SendMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+      <soap:address location="http://localhost:1123/webService/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+      <soap12:address location="http://localhost:1123/webService/Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

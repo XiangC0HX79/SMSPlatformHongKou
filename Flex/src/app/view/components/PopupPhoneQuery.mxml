@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="400" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="手机号码所属地查询"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<mx:WebService id="WS" wsdl="http://webservice.webxml.com.cn/WebServices/MobileCodeWS.asmx?WSDL">
+			
+			<mx:operation name="getMobileCodeInfo" resultFormat="object" result="EmployeeList(event)">
+				
+			</mx:operation>
+			
+		</mx:WebService>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import mx.rpc.events.ResultEvent;
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			private function EmployeeList(event:ResultEvent):void				
+			{
+				var result:String = String(event.result);
+				address.text = result.substring(result.indexOf("：") + 1,result.length - 1);
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%">
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="手机号码："/>
+			<s:TextInput id="phone" width="100%"/>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="　所属地："/>
+			<s:TextInput id="address" width="100%" editable="false"/>
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="查询" 
+					   buttonDown="{WS.getMobileCodeInfo(phone.text,'');}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="退出" 
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

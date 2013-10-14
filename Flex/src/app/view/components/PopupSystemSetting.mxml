@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="300" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="系统设置"
+							  skinClass="app.view.components.skin.skinBasePopupPanel" 
+							  creationComplete="basepopuppanel1_creationCompleteHandler(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import mx.events.FlexEvent;
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			protected function basepopuppanel1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var arr:ArrayCollection = new ArrayCollection;
+				for each(var item:Font in Font.enumerateFonts(true))
+				{
+					if(item.fontName.charCodeAt(0) > 0xFF)
+					{
+						arr.addItem(item.fontName);
+					} 
+				}			
+				
+				fontFamily.dataProvider = arr;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%">
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="系统字体："/>
+			<s:DropDownList selectedIndex="0" id="fontFamily" width="100%"/>
+			<!--	<s:dataProvider>
+					<s:ArrayCollection>
+						<fx:String>微软雅黑</fx:String>
+						<fx:String>宋体</fx:String>
+						<fx:String>黑体</fx:String>
+						<fx:String>楷体</fx:String>
+						<fx:String>仿宋</fx:String>
+					</s:ArrayCollection>
+				</s:dataProvider>
+			</s:DropDownList>-->
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="字体大小："/>
+			<s:DropDownList selectedIndex="3" id="fontSize" width="100%">
+				<s:dataProvider>
+					<s:ArrayCollection>
+						<fx:Number>10</fx:Number>
+						<fx:Number>12</fx:Number>
+						<fx:Number>14</fx:Number>
+						<fx:Number>16</fx:Number>
+						<fx:Number>18</fx:Number>
+						<fx:Number>20</fx:Number>
+					</s:ArrayCollection>
+				</s:dataProvider>
+			</s:DropDownList>
+		</s:HGroup>
+		<s:Line width="100%"/>		
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="邮箱地址："/>
+			<s:TextInput width="100%" id="textMailAddr"/>
+		</s:HGroup>	
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="邮箱密码："/>
+			<s:TextInput width="100%" id="textMailPws" displayAsPassword="true"/>
+		</s:HGroup>
+		<s:Line width="100%"/>	
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="平台密码："/>
+			<s:TextInput width="100%" id="textPlatformPws" displayAsPassword="true"/>
+		</s:HGroup>	
+		<s:Line width="100%"/>	
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="确定" 
+					  buttonDown="dispatchEvent(new Event(OK));"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="退出" 
+					  buttonDown="dispatchEvent(new Event(SUBPANEL_CLOSED,true));"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

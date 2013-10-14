@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="100%" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="节日祝福语"
+							  skinClass="app.view.components.skin.skinBasePopupPanel" 
+							  creationComplete="init();">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RadioButtonGroup id="type" change="radiobuttonChangeHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import app.model.vo.HolidayVO;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.GridSelectionEvent;
+			import spark.events.IndexChangeEvent;
+			
+			public static const TYPE:String = "type";
+			
+			public static const SET:String = "set";
+			public static const DEL:String = "del";
+			public static const EDIT:String = "edit";
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			[Bindable]public var list:ArrayCollection;
+			
+			private function init():void
+			{
+				var arr:ArrayCollection = new ArrayCollection;
+				for(var i:Number = 1;i<=12;i++)
+					arr.addItem(i);
+				dropMonth.dataProvider = arr;
+				dropMonth.selectedIndex = 0;
+				
+				arr = new ArrayCollection;
+				for(i = 1;i<=31;i++)
+					arr.addItem(i);
+				dropDate.dataProvider = arr;
+				dropDate.selectedIndex = 0;
+			}
+			
+			protected function radiobuttonChangeHandler(event:Event):void
+			{
+				//var radio:RadioButton = event.currentTarget as RadioButton;
+				
+				list.filterFunction = filterFunction;
+				list.refresh();
+					
+				function filterFunction(item:HolidayVO):Boolean
+				{
+					return (item.type == String(type.selectedValue));
+				}
+			}
+			
+			protected function gridPhrase_selectionChangeHandler(event:GridSelectionEvent):void
+			{
+				var selected:HolidayVO = gridPhrase.selectedItem as HolidayVO;
+				if(selected != null)
+				{
+					textName.text = selected.name;
+					textPhrase.text = selected.message;
+					dropMonth.selectedItem = Number(selected.month);
+					dropDate.selectedItem = Number(selected.date);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:RadioButton label="公历" selected="true" groupName="type"/>
+			<s:Spacer width="100"/>
+			<s:RadioButton label="农历" groupName="type"/>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle" >
+			<s:VGroup width="100%" height="100%">								
+				<s:Label text="短信列表："/>
+				<s:DataGrid id="gridPhrase" requestedRowCount="6" width="100%" dataProvider="{list}" 
+							selectionChange="gridPhrase_selectionChangeHandler(event)">
+					<s:columns>
+						<s:ArrayList>
+							<s:GridColumn dataField="month" headerText="月" width="50"></s:GridColumn>
+							<s:GridColumn dataField="date" headerText="日" width="50"></s:GridColumn>
+							<s:GridColumn dataField="name" headerText="节日名称" width="100"></s:GridColumn>
+							<s:GridColumn dataField="message" headerText="短信"></s:GridColumn>
+						</s:ArrayList>
+					</s:columns>
+				</s:DataGrid>							
+				<s:Label text="短信内容："/>			
+				<s:TextArea width="100%" height="100" id="textPhrase"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="节日名称："/>
+			<s:TextInput id="textName" width="150"/>
+			<s:Label text="月份："/>
+			<s:DropDownList id="dropMonth" width="60"/>
+			<s:Label text="日期："/>
+			<s:DropDownList id="dropDate" width="60"/>
+			<s:Button label="添加" 
+					  buttonDown="{dispatchEvent(new Event(SET));}"
+					  skinClass="app.view.components.skin.skinButton"/>				
+			<s:Button label="删除" 
+					  buttonDown="{dispatchEvent(new Event(DEL));}"
+					  skinClass="app.view.components.skin.skinButton"/>				
+			<s:Button label="编辑" 
+					  buttonDown="{dispatchEvent(new Event(EDIT));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="退出"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

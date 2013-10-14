@@ -1,0 +1,8 @@
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\obj\Debug\EMPP.csproj.ResolveComReference.cache
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\obj\Debug\EMPP.exe
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\obj\Debug\EMPP.pdb
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\bin\Debug\EMPP.exe
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\bin\Debug\EMPP.pdb
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\bin\Debug\Interop.EMPPLib.dll
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\obj\Debug\ResolveAssemblyReference.cache
+F:\Project\彩信平台\empp\EMPP.2.0.0_API_COM\EMPP.2.0.0_API_COM\EMPPSample(C#)\obj\Debug\Interop.EMPPLib.dll

@@ -1,0 +1,4 @@
+1)token用MD5加密成32位，并且要大写；
+2)httpclient的post方式发送URL请求，如：
+http://IP:PORT/eepwww/TaskServlet?Method=GetTaskList&Customer_id=XXXX&Corp_Account=XXXXXX&Token=XXXXXXX&START=0&END=10
+参数名称大小写严格按照上述格式，即接口文档中定义的格式

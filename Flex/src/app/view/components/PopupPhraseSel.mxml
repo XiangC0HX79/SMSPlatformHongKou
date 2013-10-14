@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="600" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="选择短语"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import app.model.vo.SMSVO;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			public static const ADDGROUP:String = "addgroup";
+			public static const DELGROUP:String = "deletegroup";
+			
+			public static const CHANGEGROUP:String = "changegroup";
+			
+			public static const ADDPHRASE:String = "addphrase";
+			public static const DELPHRASE:String = "deletephrase";
+			
+			[Bindable]public var listGroup:ArrayCollection;		
+			
+			[Bindable]public var listPhrase:ArrayCollection;	
+			
+			public var draft:SMSVO;
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:DataGrid id="gridPhrase" requestedRowCount="8" width="100%" dataProvider="{listPhrase}">
+			<s:columns>
+				<s:ArrayList>
+					<s:GridColumn dataField="message" headerText="短语内容"></s:GridColumn>
+					<s:GridColumn dataField="dateString" headerText="创建时间" width="200"></s:GridColumn>
+				</s:ArrayList>
+			</s:columns>
+		</s:DataGrid>	
+		<s:HGroup width="100%" horizontalAlign="center">	
+			<s:Button label="选择"
+					  buttonDown="{dispatchEvent(new Event(OK));}"
+					  skinClass="app.view.components.skin.skinButton"/>			
+			<s:Button label="取消"
+					  buttonDown="{dispatchEvent(new Event(CANCEL));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

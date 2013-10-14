@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:subComponents="app.view.components.subComponents.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+		
+	<fx:Script>
+		<![CDATA[			
+			import app.model.vo.SMSVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.utils.StringUtil;
+			
+			public static const RESMS:String = "resms";
+			public static const SENDSMS:String = "sendsms";
+			public static const DEL:String = "del";
+			
+			[Bindable]public var list:ArrayCollection;
+			
+			protected function handleSelectAll(event:FlexEvent):void
+			{
+				for each(var sms:SMSVO in list)
+				{
+					sms.selected = true;
+				}
+			}
+			
+			protected function handleSelectOther(event:FlexEvent):void
+			{
+				for each(var sms:SMSVO in list)
+				{
+					sms.selected = !sms.selected;
+				}
+			}
+			
+			protected function allButtonDownHandler(event:FlexEvent):void
+			{
+				list.filterFunction = null;
+				list.refresh();				
+			}
+			
+			protected function searchButtonDownHandler(event:FlexEvent):void
+			{				
+				var beginTime:Date = panelBeginTime.beginTime;
+				var endTime:Date = panelEndTime.beginTime;
+				
+				var phone:String = StringUtil.trim(textPhone.text);		
+				
+				list.filterFunction = filterFunction;
+				list.refresh();
+				
+				function filterFunction(sms:SMSVO):Boolean
+				{			
+					if((sms.date.time < beginTime.time)
+						|| (sms.date.time > endTime.time))
+						return false;
+					
+					if(phone != "")
+					{
+						if(sms.phone.indexOf(phone) < 0)
+						{
+							return false;
+						}
+					}
+					
+					return true;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<s:HGroup height="25" verticalAlign="middle">
+		<s:Label text="收件箱" fontWeight="bold"/>
+		<s:Label text="共有记录数：{list.length}"/>
+	</s:HGroup>
+	<s:HGroup>
+		<s:Button label="回复短信" buttonDown="{dispatchEvent(new Event(RESMS));}"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="转发短信" buttonDown="{dispatchEvent(new Event(SENDSMS));}"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="全　　选"
+				  buttonDown="handleSelectAll(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="反　　选"
+				  buttonDown="handleSelectOther(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="删除短信"  buttonDown="{dispatchEvent(new Event(DEL));}"
+				  skinClass="app.view.components.skin.skinButton"/>
+	</s:HGroup>
+	<s:HGroup verticalAlign="middle">		
+		<s:Label text="开始时间："/>
+		<subComponents:PanelTime id="panelBeginTime" beginTime="{new Date(2012,0,1)}"/>
+		<s:Label text="结束时间："/>
+		<subComponents:PanelTime id="panelEndTime" beginTime="{new Date(2013,0,1)}"/>
+	</s:HGroup>
+	<s:HGroup verticalAlign="middle">
+		<s:Label text="手机号码："/>
+		<s:TextInput id="textPhone"/>
+		<s:Button label="查　　询" buttonDown="searchButtonDownHandler(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="所　　有" buttonDown="allButtonDownHandler(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+	</s:HGroup>
+	<s:DataGrid id="gridContact" height="100%" width="100%" 
+				dataProvider="{list}">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="selected" headerText="选择" width="60" 
+							  itemRenderer="app.view.components.subComponents.ItemRendererCheck"></s:GridColumn>
+				<s:GridColumn dataField="dateString" headerText="接收时间" width="200"></s:GridColumn>
+				<s:GridColumn dataField="people" headerText="姓名" width="100"></s:GridColumn>
+				<s:GridColumn dataField="phone" headerText="手机号码" width="120"></s:GridColumn>
+				<s:GridColumn dataField="message" headerText="短信内容" showDataTips="true"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>	
+</s:Group>

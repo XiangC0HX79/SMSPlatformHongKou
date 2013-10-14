@@ -1,0 +1,1 @@
+String s = new String(org.apache.commons.codec.binary.Hex.encodeHex(byte[] b));

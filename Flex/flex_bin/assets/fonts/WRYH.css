@@ -1,0 +1,18 @@
+/* CSS file */
+
+@font-face {
+    
+    src:local("微软雅黑");
+
+    fontFamily: WB-WRYH; /* 嵌入后的字体名称 */
+
+    fontStyle: normal;/* 常用值：normal, italic */
+
+    fontWeight: normal; /* 常用值：normal, bold */
+
+    advancedAntiAliasing: true;
+    
+	mimeType:"application/x-font-truetype" ;
+	
+	embedAsCFF:false;
+} 

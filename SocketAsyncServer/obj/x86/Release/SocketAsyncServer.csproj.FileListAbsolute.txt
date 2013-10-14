@@ -1,0 +1,10 @@
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\bin\x86\Release\SocketAsyncServer.exe.config
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\obj\x86\Release\Interop.EMPPLib.dll
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\obj\x86\Release\SocketAsyncServer.csproj.ResolveComReference.cache
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\bin\x86\Release\Data.mdb
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\bin\x86\Release\SocketAsyncServer.exe
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\bin\x86\Release\SocketAsyncServer.pdb
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\bin\x86\Release\Interop.EMPPLib.dll
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\obj\x86\Release\ResolveAssemblyReference.cache
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\obj\x86\Release\SocketAsyncServer.exe
+F:\Project\彩信平台\dkqn-huangxiang-smsplatform\SocketAsyncServer\obj\x86\Release\SocketAsyncServer.pdb

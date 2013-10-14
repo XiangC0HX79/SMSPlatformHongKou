@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="300" height="100" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="新建组"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%">
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="组名："/>
+			<s:TextInput id="groupName" width="100%"/>
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="确定"
+					  buttonDown="{dispatchEvent(new Event(OK));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="取消"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

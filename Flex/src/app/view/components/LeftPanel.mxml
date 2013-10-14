@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="185" creationComplete="init(event)" gap="0">
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			//import app.view.components.subComponents.TreeRightClickManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.listClasses.IListItemRenderer;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.events.MenuEvent;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/联系人.png")]
+			public var iconContact:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/我的同事.png")]
+			public var iconColleague:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/我的客户.png")]
+			public var iconCustomer:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/短信.png")]
+			public var iconSMS:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/草稿箱.png")]
+			public var iconSMSDraft:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/发出失败.png")]
+			public var iconSMSFault:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/发出成功.png")]
+			public var iconSMSSuccess:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/已接收记录.png")]
+			public var iconSMSReceive:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/调查记录.png")]
+			public var iconInvesting:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/日程表.png")]
+			public var iconSchedule:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/任务列表.png")]
+			public var iconTask:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/传真.png")]
+			public var iconFax:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/邮件.png")]
+			public var iconMail:Class;
+			
+			[Bindable]
+			[Embed(source="assets/image/LeftPanel/彩信.png")]
+			public var iconMMS:Class;
+						
+			[Bindable]   
+			private var xmlSMS:XML=                                 
+				<node label="短信">              
+					<node id="1" icon="iconSMSDraft" label="草稿箱" />            
+					<node id="2" icon="iconSMSFault" label="发送失败记录"/>      
+					<node id="2" icon="iconSMSSuccess" label="发送成功记录"/>        
+					<node id="2" icon="iconSMSReceive" label="已接收记录"/>        
+					<node id="2" icon="iconInvesting" label="调查记录"/>                
+				</node>;
+			
+			[Bindable]   
+			private var xmlSchedule:XML=                                 
+				<node label="日程表" icon="iconSchedule">                    
+				</node>;
+			
+			[Bindable]   
+			private var xmlTask:XML=                                 
+				<node label="任务列表" icon="iconTask">              
+				</node>;
+			
+			[Bindable]   
+			private var xmlFax:XML=                                 
+				<node label="传真">     
+					<node id="1" icon="iconSMSDraft" label="草稿箱" />            
+					<node id="2" icon="iconSMSFault" label="发送失败记录"/>      
+					<node id="2" icon="iconSMSSuccess" label="发送成功记录"/>  
+				</node>;
+			
+			[Bindable]   
+			private var xmlMail:XML=                                 
+				<node label="邮件">     
+					<node id="1" icon="iconSMSDraft" label="草稿箱" />            
+					<node id="2" icon="iconSMSFault" label="发送失败记录"/>      
+					<node id="2" icon="iconSMSSuccess" label="发送成功记录"/>  
+				</node>;
+			
+			[Bindable]   
+			private var xmlMMS:XML=                                 
+				<node label="彩信">     
+					<node id="1" icon="iconSMSDraft" label="草稿箱" />            
+					<node id="2" icon="iconSMSFault" label="发送失败记录"/>      
+					<node id="2" icon="iconSMSSuccess" label="发送成功记录"/>  
+				</node>;
+			
+			public static const NODECHANGE:String = "改变节点";
+			
+			public static const EXPAND:String = "展开节点";
+			public static const EXPANDALL:String = "展开所有节点";
+			public static const CLOSE:String = "关闭节点";
+			public static const CLOSEALL:String = "关闭所有节点";			
+			public static const ADDGROUP:String = "添加组";		
+			public static const DELETEGROUP:String = "删除组";		
+			public static const ADDCONTACT:String = "添加会员";		
+			public static const DELCONTACT:String = "删除会员";	
+			public static const SENDSMS:String = "发送短信";	
+			public static const SENDMMS:String = "发送彩信";	
+			
+			private var menu:mx.controls.Menu;
+			
+			public var itemLabel:String = "";
+			
+			protected function init(event:FlexEvent):void
+			{								
+				//加载右击事件
+				//treeContact.addEventListener(TreeRightClickManager.RIGHT_CLICK,treeRightClickHandler);
+				
+				//treeContact.setStyle("fontFamily","微软雅黑");
+				
+				/* treeSMS.validateNow();   
+				treeSMS.selectedIndex = 0;   
+				treeSMS.expandChildrenOf(treeSMS.selectedItem,true);	
+				
+				treeFax.validateNow();   
+				treeFax.selectedIndex = 0;   
+				treeFax.expandChildrenOf(treeFax.selectedItem,true);	
+				
+				treeMail.validateNow();   
+				treeMail.selectedIndex = 0;   
+				treeMail.expandChildrenOf(treeMail.selectedItem,true);	
+				
+				treeMMS.validateNow();   
+				treeMMS.selectedIndex = 0;   
+				treeMMS.expandChildrenOf(treeMMS.selectedItem,true);	 */
+			}			
+			
+			protected function itemClickHandler(event:ListEvent):void
+			{
+				//itemLabel = event.itemRenderer.data.@label;
+				
+				//dispatchEvent(new Event(ITEMCLICK));
+			}
+			
+			//树右击事件
+			private function treeRightClickHandler(event:ContextMenuEvent):void
+			{
+				tree_onRightClicked(event); 
+				tree_removeMenu();
+				tree_InitMenu();
+			}
+			
+			private function tree_onRightClicked(e:ContextMenuEvent):void 
+			{  
+				var rightClickItemRender:IListItemRenderer;    
+				var rightClickIndex:int;  
+				if(e.mouseTarget is IListItemRenderer)
+				{          
+					rightClickItemRender = IListItemRenderer(e.mouseTarget);         }
+					
+				else if(e.mouseTarget.parent is IListItemRenderer)
+				{          
+					rightClickItemRender = IListItemRenderer(e.mouseTarget.parent);    
+				}    
+				if(rightClickItemRender != null)
+				{    
+					rightClickIndex = treeContact.itemRendererToIndex(rightClickItemRender);    
+					if(treeContact.selectedIndex != rightClickIndex)
+					{    
+						treeContact.selectedIndex = rightClickIndex;   
+					}   
+				} 
+			}
+			
+			//删除右键菜单
+			private function tree_removeMenu():void 
+			{ 
+				if(menu!=null)  
+				{  
+					menu.hide();
+					menu.removeEventListener(MenuEvent.ITEM_CLICK,tree_MenuItemSelected);  
+					menu=null;  
+				}  
+			}
+			
+			//生成右键菜单
+			private var selectedId:String="";
+			private var selectedLabel:String="";
+			private function tree_InitMenu():void
+			{
+				var currentItem:XML=treeContact.selectedItem as XML;
+				if(currentItem == null)
+					return;
+				
+				selectedId=currentItem.@id;
+				selectedLabel=currentItem.@label;
+				var lx:String=currentItem.@type;
+				
+				menu = mx.controls.Menu.createMenu(this, tree_createMenuItems(lx), false);
+				menu.iconField="itemIcon";//右键菜单的图标
+				menu.labelField="label";  //右键菜单的名称 
+				menu.variableRowHeight = true;     
+				menu.addEventListener(MenuEvent.ITEM_CLICK, tree_MenuItemSelected);  //右键菜单的事件
+				var point:Point = new Point(mouseX,mouseY);  
+				point = localToGlobal(point);   
+				
+				var menuHeight:Number = menu.rowHeight * (menu.dataProvider as ArrayCollection).length;
+				if((point.y - menuHeight) < 0)
+					menu.show(point.x,0);  //显示右键菜单
+				else
+					menu.show(point.x,point.y - menuHeight);  //显示右键菜单
+			}
+			
+			
+			//根据节点不同，生成不同的菜单
+			private function tree_createMenuItems(lx:String):Array  				
+			{  
+				var menuItems:Array = new Array();
+				
+				var menuItem:ContextMenuItem = new ContextMenuItem(SENDSMS);
+				menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+				menuItems.push(menuItem);
+				
+				menuItem = new ContextMenuItem(SENDMMS);
+				menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+				menuItems.push(menuItem);
+				
+				switch(lx){
+					case "root":
+						menuItem = new ContextMenuItem(ADDGROUP,true);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						
+						menuItem = new ContextMenuItem(ADDCONTACT);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+																		
+						menuItem = new ContextMenuItem(EXPAND,true);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						
+						menuItem = new ContextMenuItem(CLOSE);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						break;
+					case "group":						
+						menuItem = new ContextMenuItem(ADDGROUP,true);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						
+						menuItem = new ContextMenuItem(DELETEGROUP);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						
+						menuItem = new ContextMenuItem(ADDCONTACT);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);		
+						
+						menuItem = new ContextMenuItem(EXPAND,true);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						
+						menuItem = new ContextMenuItem(CLOSE);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);
+						break;
+					case "contact":						
+						menuItem = new ContextMenuItem(DELCONTACT,true);
+						menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+						menuItems.push(menuItem);	
+						break;
+				}            
+				
+				menuItem = new ContextMenuItem(EXPANDALL);
+				menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+				menuItems.push(menuItem);		
+				
+				menuItem = new ContextMenuItem(CLOSEALL);
+				menuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,tree_MenuItemSelected);
+				menuItems.push(menuItem);	
+				
+				return menuItems;				
+			}
+			
+			//点击菜单，相应方法 
+			private function tree_MenuItemSelected(event:ContextMenuEvent):void				
+			{
+				var menuItem:ContextMenuItem = event.currentTarget as ContextMenuItem;
+				switch(menuItem.caption)
+				{					
+					case EXPAND:
+						nodeExpand();
+						break;
+					case CLOSE:
+						nodeClose();
+						break;
+					case EXPANDALL:
+						nodeExpandAll();
+						break;
+					case CLOSEALL:
+						nodeCloseAll();
+						break;
+					default:						
+						dispatchEvent(new Event(menuItem.caption));
+						break;
+				}
+			}
+						
+			//改变事件
+			private function treeChanged(event:Event):void{
+				var selectedTreeNode:XML = Tree(event.target).selectedItem as XML;
+				if(selectedTreeNode != null)
+				{					
+					var lx:String=selectedTreeNode.@type;
+					
+					var contextMenu:ContextMenu = new ContextMenu;
+					
+					//var contextMenuItem:ContextMenuItem = new ContextMenuItem("测试菜单");
+					
+					contextMenu.customItems = tree_createMenuItems(lx);
+					
+					contextMenu.hideBuiltInItems();
+					
+					treeContact.contextMenu = contextMenu;
+					
+					dispatchEvent(new Event(NODECHANGE));
+				}
+				//Alert.show("您点击了："+selectedTreeNode.@label,"提示");				
+			}
+			
+			//展开当前节点
+			private function nodeExpand():void{  
+				treeContact.expandItem(treeContact.selectedItem,true);  
+			}
+			
+			//关闭当前节点
+			private function nodeClose():void{  
+				treeContact.expandItem(treeContact.selectedItem,false);
+				
+			} 
+			
+			//展开所有节点
+			private function nodeExpandAll():void{
+				for each(var item:XML in treeContact.dataProvider) {
+					treeContact.expandChildrenOf(item,true); 
+				}
+			}
+			
+			//关闭所有节点
+			private function nodeCloseAll():void{
+				//方法1：studentTree.openItems = [];
+				//方法2：
+				for each(var item:XML in treeContact.dataProvider) {
+					treeContact.expandChildrenOf(item,false);
+				}
+			}
+			
+			private function iconFun(item:Object):*  
+			{  
+				var xml:XML= XML(item);  
+				if(xml.attribute("type") == "root")  
+					return iconContact;  
+				else if(xml.attribute("type") == "group")  
+					return iconContact;  
+				else if(xml.attribute("type") == "contact")  
+					return iconColleague;  
+			}    
+		]]>
+		
+	</fx:Script>	
+	<mx:Tree id="treeContact" width="100%" itemClick="itemClickHandler(event)" height="100%"
+			 borderVisible="false" contentBackgroundAlpha="0.0"
+			 iconFunction="iconFun" change="treeChanged(event)"
+			 folderOpenIcon="{iconContact}" folderClosedIcon="{iconContact}"
+			 labelField="@label">
+	</mx:Tree>
+	<!--<mx:Tree id="treeSMS" width="100%" rowCount="6" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconSMS}" folderClosedIcon="{iconSMS}"
+			 dataProvider="{xmlSMS}" iconField="@icon" labelField="@label">
+	</mx:Tree>	
+	<mx:Tree id="treeSchedule" width="100%" rowCount="1" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconSchedule}" folderClosedIcon="{iconSchedule}"
+			 dataProvider="{xmlSchedule}" iconField="@icon" labelField="@label">
+	</mx:Tree>
+	<mx:Tree id="treeTask" width="100%" rowCount="1" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconTask}" folderClosedIcon="{iconTask}"
+			 dataProvider="{xmlTask}" iconField="@icon" labelField="@label">
+	</mx:Tree>
+	<mx:Tree id="treeFax" width="100%" rowCount="4" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconFax}" folderClosedIcon="{iconFax}"
+			 dataProvider="{xmlFax}" iconField="@icon" labelField="@label">
+	</mx:Tree>
+	<mx:Tree id="treeMail" width="100%" rowCount="4" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconMail}" folderClosedIcon="{iconMail}"
+			 dataProvider="{xmlMail}" iconField="@icon" labelField="@label">
+	</mx:Tree>
+	<mx:Tree id="treeMMS" width="100%" rowCount="4" rowHeight="20"
+			 borderVisible="false" contentBackgroundAlpha="0.0" 
+			 folderOpenIcon="{iconMMS}" folderClosedIcon="{iconMMS}"
+			 dataProvider="{xmlMMS}" iconField="@icon" labelField="@label">
+	</mx:Tree>-->
+</s:VGroup>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import app.model.vo.ContactVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			public static const DELETECONTACT:String = "deletecontact";
+			public static const NEWCONTACT:String = "newcontact";
+			public static const EDITCONTACT:String = "editcontact";
+			public static const SENDSMS:String = "sendSMS";
+			public static const SENDMMS:String = "sendMMS";
+			
+			[Bindable]public var listContact:ArrayCollection;
+			
+			protected function handleSelectAll(event:FlexEvent):void
+			{
+				for each(var contact:ContactVO in listContact)
+				{
+					contact.selected = true;
+				}
+			}
+			
+			protected function handleSelectOther(event:FlexEvent):void
+			{
+				for each(var contact:ContactVO in listContact)
+				{
+					contact.selected = !contact.selected;
+				}
+			}
+			
+			protected function searchButtonDownHandler(event:FlexEvent):void
+			{
+				listContact.filterFunction = filterFunction;
+				listContact.refresh();
+			}
+			
+			public function filterFunction(item:ContactVO):Boolean
+			{				
+				if((textName.text != "")
+					&& (item.name.indexOf(textName.text) == -1))
+					return false;
+				
+				if((textPhone.text != "")
+					&& (item.phone.indexOf(textPhone.text) == -1))
+					return false;
+				
+				return true;
+			}			
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<s:HGroup height="25" verticalAlign="middle">
+		<s:Label text="联系人" fontWeight="bold"/>
+		<s:Label text="共有记录数：{listContact.length}"/>
+	</s:HGroup>
+	<s:HGroup>
+		<s:Button label="添加会员" 
+				  buttonDown="{dispatchEvent(new Event(NEWCONTACT));}"	
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="发送短信"
+				  buttonDown="{dispatchEvent(new Event(SENDSMS));}"	
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="发送彩信"
+				  buttonDown="{dispatchEvent(new Event(SENDMMS));}"	
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="全　　选" 
+				  buttonDown="handleSelectAll(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="反　　选" 
+				  buttonDown="handleSelectOther(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="显示/修改"
+				  buttonDown="{dispatchEvent(new Event(EDITCONTACT));}"
+				  skinClass="app.view.components.skin.skinButton"/>
+		<s:Button label="删除会员" 
+				  buttonDown="{dispatchEvent(new Event(DELETECONTACT));}"
+				  skinClass="app.view.components.skin.skinButton"/>
+	</s:HGroup>
+	<s:HGroup verticalAlign="middle">
+		<s:Label text="姓名："/>
+		<s:TextInput id="textName"/>
+		<s:Label text="手机号码："/>
+		<s:TextInput id="textPhone"/>
+		<s:Button label="查　　询" buttonDown="searchButtonDownHandler(event)"
+				  skinClass="app.view.components.skin.skinButton"/>
+	</s:HGroup>
+	<s:DataGrid id="gridContact" requestedRowCount="4" height="100%" width="100%" dataProvider="{listContact}">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="selected" headerText="选择" width="60" 
+							  itemRenderer="app.view.components.subComponents.ItemRendererCheck"></s:GridColumn>
+				<s:GridColumn dataField="name" headerText="姓名" width="120"></s:GridColumn>
+				<s:GridColumn dataField="phone" headerText="手机" width="140"></s:GridColumn>
+				<s:GridColumn dataField="branch" headerText="所属支部" width="250"></s:GridColumn>
+				<s:GridColumn dataField="grouppost" headerText="组内职务" width="120"></s:GridColumn>
+				<s:GridColumn dataField="mail" headerText="电子邮箱" width="200"></s:GridColumn>
+				<s:GridColumn dataField="sex" headerText="性别" width="60"></s:GridColumn>
+				<s:GridColumn dataField="birth" headerText="出生年月" width="100"></s:GridColumn>
+				<s:GridColumn dataField="education" headerText="学历" width="60"></s:GridColumn>
+				<s:GridColumn dataField="unit" headerText="工作单位" width="200"></s:GridColumn>
+				<s:GridColumn dataField="post" headerText="职务" width="100"></s:GridColumn>
+				<s:GridColumn dataField="unit_addr" headerText="单位地址" width="200"></s:GridColumn>
+				<s:GridColumn dataField="unit_phone" headerText="单位电话" width="100"></s:GridColumn>
+				<s:GridColumn dataField="home_addr" headerText="家庭地址" width="200"></s:GridColumn>
+				<s:GridColumn dataField="home_phone" headerText="家庭电话" width="100"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>	
+</s:Group>

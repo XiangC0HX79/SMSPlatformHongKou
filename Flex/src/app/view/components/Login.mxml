@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:subComponents="app.view.components.subComponents.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.BitmapAsset;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import spark.core.SpriteVisualElement;
+			
+			[Bindable]
+			[Embed(source="assets/image/login.png")]
+			private var imageLoginBack:Class;
+			private var loginBackData:BitmapAsset =  BitmapAsset(new imageLoginBack());
+			
+			public static const SUBMIT:String = "submit";
+			public static const PASSWORD:String = "password";
+			public static const EXIT:String = "exit";	
+						
+			private var drawed:Boolean = false;			
+			protected function center_updateCompleteHandler(event:FlexEvent):void
+			{
+				if(drawed)
+				{
+					return ;
+				}
+				else
+				{
+					drawed = true;
+				}
+				
+				refreshBack();
+			}
+						
+			public function refreshBack():void
+			{
+				const GRID_WIDTH:Number = 80;
+				const GRID_HEIGHT:Number = 60;
+				
+				for(var i:Number = this.numElements;i > 1;i--)
+				{
+					this.removeElementAt(i - 1);
+				}
+				
+				//LEFT-TOP
+				var sourcBitmap:BitmapData = new BitmapData(GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(0,0,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				var v:SpriteVisualElement = new SpriteVisualElement;
+				v.x = 0;
+				v.y = 0;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//TOP
+				sourcBitmap = new BitmapData(loginBackData.width - 2 * GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(GRID_WIDTH,0,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				v = new SpriteVisualElement;
+				v.x = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.y = 0;
+				v.width = sourcBitmap.width;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//RIGHT-TOP
+				sourcBitmap = new BitmapData(GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(loginBackData.bitmapData.width - GRID_WIDTH,0,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0)); 
+				
+				v = new SpriteVisualElement;
+				v.x = (this.width + center.width) / 2 - GRID_WIDTH;
+				v.y = 0;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//LEFT
+				sourcBitmap = new BitmapData(GRID_WIDTH,loginBackData.bitmapData.height - 2*GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(0,GRID_HEIGHT,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				v = new SpriteVisualElement;
+				v.x = 0;
+				v.y = (this.height - center.height) / 2 + GRID_HEIGHT;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = sourcBitmap.height;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//RIGHT
+				sourcBitmap = new BitmapData(GRID_WIDTH,loginBackData.bitmapData.height - 2*GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(loginBackData.bitmapData.width - GRID_WIDTH,GRID_HEIGHT,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				v = new SpriteVisualElement;
+				v.x = (this.width + center.width) / 2 - GRID_WIDTH;
+				v.y = (this.height - center.height) / 2 + GRID_HEIGHT;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = sourcBitmap.height;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//LEFT-BOTTOM
+				sourcBitmap = new BitmapData(GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(0,loginBackData.bitmapData.height - GRID_HEIGHT,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				v = new SpriteVisualElement;
+				v.x = 0;
+				v.y = (this.height + center.height) / 2 - GRID_HEIGHT;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//BOTTOM
+				sourcBitmap = new BitmapData(loginBackData.width - 2 * GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(GRID_WIDTH,loginBackData.bitmapData.height - GRID_HEIGHT,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0));
+				
+				v = new SpriteVisualElement;
+				v.x = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.y = (this.height + center.height) / 2 - GRID_HEIGHT;
+				v.width = sourcBitmap.width;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+				
+				//RIGHT-BOTTOM
+				sourcBitmap = new BitmapData(GRID_WIDTH,GRID_HEIGHT);
+				sourcBitmap.copyPixels(loginBackData.bitmapData
+					,new Rectangle(loginBackData.bitmapData.width - GRID_WIDTH,loginBackData.bitmapData.height - GRID_HEIGHT,sourcBitmap.width,sourcBitmap.height)
+					,new Point(0,0)); 
+				
+				v = new SpriteVisualElement;
+				v.x = (this.width + center.width) / 2 - GRID_WIDTH;
+				v.y = (this.height + center.height) / 2 - GRID_HEIGHT;
+				v.width = (this.width - center.width) / 2 + GRID_WIDTH;
+				v.height = (this.height - center.height) / 2 + GRID_HEIGHT;
+				
+				v.graphics.beginBitmapFill(sourcBitmap
+					,new Matrix(v.width / sourcBitmap.width,0,0,v.height / sourcBitmap.height));
+				v.graphics.drawRect(0, 0, v.width, v.height);  
+				v.graphics.endFill();
+				
+				this.addElement(v);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>	
+	<s:Group verticalCenter="0" horizontalCenter="0" id="center" 
+			 updateComplete="center_updateCompleteHandler(event)">		
+		<s:Image source="{imageLoginBack}"/>
+		<s:HGroup y="365" gap="30" horizontalCenter="43">
+			<subComponents:ImageButton width="91" height="30" 
+									   buttonDown="dispatchEvent(new Event(SUBMIT));"								  
+									   upIcon="@Embed('assets/image/denglu_1.png')"
+									   overIcon="@Embed('assets/image/denglu_2.png')"
+									   skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton width="91" height="30" 
+									   buttonDown="dispatchEvent(new Event(PASSWORD));"
+									   upIcon="@Embed('assets/image/wangjimima_1.png')"
+									   overIcon="@Embed('assets/image/wangjimima_2.png')"
+									   skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton width="91" height="30"  buttonDown="dispatchEvent(new Event(EXIT));"
+									   upIcon="@Embed('assets/image/exit_1.png')"
+									   overIcon="@Embed('assets/image/exit_2.png')"
+									   skinClass="app.view.components.skin.skinImageButton"/>			
+		</s:HGroup>
+		<s:TextInput x="525" y="265" width="200" height="30" id="textUserName" 
+					 enter="dispatchEvent(new Event(SUBMIT));"/>
+		<s:TextInput x="525" y="304" width="200" height="30" displayAsPassword="true" id="textUserPassword"
+					 enter="dispatchEvent(new Event(SUBMIT));"/>
+	</s:Group>
+	
+</s:Group>

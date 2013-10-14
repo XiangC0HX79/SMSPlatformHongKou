@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 creationComplete="init();">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import app.model.vo.MMSParVO;
+			
+			[Bindable]public var MMSPar:MMSParVO = new MMSParVO;
+						
+			private function init():void   
+			{                  
+			}   
+			
+			private function addImageButtonHandle():void   
+			{   
+				var imageTypes:FileFilter = new FileFilter("图片 (*.jpg,*.gif)", "*.jpg;*.jpeg;*.gif");
+				
+				MMSPar.imgFile.browse([imageTypes]);   				
+			}   
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="textMessage.text" destination="MMSPar.text" twoWay="true"/>
+	<fx:Binding source="numDur.value" destination="MMSPar.dur" twoWay="true"/>
+	
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%" verticalAlign="middle">		
+			<s:Label text="本页播放的时间："/>
+			<s:NumericStepper id="numDur" value="5"/>
+			<s:Label text="秒"/>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle">									
+			<s:Label text="图片："/>
+			<s:TextInput editable="false" text="{MMSPar.imgName}"/>
+			<s:Button label="添加" 
+					  buttonDown="addImageButtonHandle();"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+		<s:HGroup width="100%" height="100%">									
+			<s:Label text="文字："/>
+			<s:TextArea id="textMessage" width="100%" height="100%"/>
+		</s:HGroup>		
+	</s:VGroup>
+	<s:Group height="400" width="300">
+		<s:Image source="assets/image/IPhone4.png" verticalCenter="0" horizontalCenter="0"/>
+		<s:Scroller y="105" height="220" width="170" horizontalCenter="0" horizontalScrollPolicy="off">
+			<s:VGroup width="100%" horizontalCenter="0">				
+				<s:Image id="img" width="170" height="140" horizontalAlign="center" horizontalCenter="0"
+						 verticalAlign="middle" source="{MMSPar.bitmapData}"/> 
+				<s:Label text="{textMessage.text}" width="100%"/>
+			</s:VGroup>
+		</s:Scroller>
+		<!--<s:VGroup y="105" height="220" width="170" horizontalCenter="0">
+			<s:VScrollBar/>
+			<s:Image id="img" width="170" height="140" horizontalAlign="center" horizontalCenter="0"
+					 verticalAlign="middle" source="{MMSPar.bitmapData}"/> 
+			<s:Label text="{textMessage.text}" width="100%" height="100%"/>
+		</s:VGroup>-->
+	</s:Group>
+</s:HGroup>

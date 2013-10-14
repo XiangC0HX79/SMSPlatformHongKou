@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:subComponents="app.view.components.subComponents.*">
+	<fx:Script>
+		<![CDATA[
+			import app.controller.WebServiceCommand;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			public static const MENU:String = "menu";
+			
+			public static const MENU_TASK:String = "menu_task";
+			public static const MENU_SMS:String = "menu_SMS";			
+			public static const MENU_MMS:String = "menu_MMS";		
+			public static const MENU_FAX:String = "menu_fax";		
+			public static const MENU_MAIL:String = "menu_mail";
+			public static const MENU_DATA:String = "menu_data";
+			public static const MENU_SET:String = "menu_set";	
+			public static const MENU_HELP:String = "menu_help";			
+			public static const MENU_EXIT:String = "menu_exit";		
+			public static const MENU_FUN:String = "menu_fun";
+			
+			public static const MENU_TASK_NEW:String = "menu_task_new";
+			public static const MENU_TASK_LIST:String = "menu_task_list";
+			
+			public static const MENU_SMS_SEND:String = "menu_SMS_send";
+			public static const MENU_SMS_DRAFT:String = "menu_SMS_draft";
+			public static const MENU_SMS_RECEIVE:String = "menu_SMS_receive";
+			public static const MENU_SMS_SENDFAIL:String = "menu_SMS_sendfail";
+			public static const MENU_SMS_SENDSUCCESS:String = "menu_SMS_sendsuccess";
+			
+			public static const MENU_SMS_DICT:String = "menu_SMS_dict";
+			public static const MENU_SMS_CUSTOM:String = "menu_SMS_custom";
+			public static const MENU_SMS_HOLIDAY:String = "menu_SMS_holiday";
+			public static const MENU_SMS_BIRTHDAY:String = "menu_SMS_birthday";
+			
+			public static const MENU_MMS_DRAFT:String = "menu_MMS_draft";
+			public static const MENU_MMS_SEND:String = "menu_MMS_send";
+			public static const MENU_MMS_SENDSUCCESS:String = "menu_MMS_sendsuccess";
+			public static const MENU_MMS_SENDFAILED:String = "menu_MMS_sendfailed";
+			
+			public static const MENU_FUN_PHONE:String = "menu_fun_phone";
+			
+			public static const MENU_SYS_SETTING:String = "menu_sys_setting";
+			public static const MENU_SYS_PASSWORD:String = "menu_sys_password";
+			
+			public var menu:String = "";
+			
+			private var file:FileReference = new FileReference;
+			
+			protected function ButtonDown(event:FlexEvent,type:String):void
+			{
+				menu = type;
+				
+				dispatchEvent(new Event(MENU));
+			}
+			
+			protected function MenuMainHandle(event:MouseEvent,type:String):void
+			{
+				view.visible = false;
+				
+				var button:ImageButton = event.currentTarget as ImageButton;
+				var parent:Group = button.parent as Group;
+				var p:Point = parent.contentToGlobal(new Point(button.x,button.y));
+				
+				/*if(type == MENU_TASK)
+				{
+					view.selectedIndex = 0;
+					view.visible = true;
+				}
+				else*/ if(type == MENU_SMS)
+				{
+					view.selectedIndex = 1;
+					view.horizontalCenter = 0;	
+					view.visible = true;				
+				}
+				else if(type == MENU_MMS)
+				{
+					view.selectedIndex = 2;
+					view.horizontalCenter = button.x - parent.width / 2 + button.width / 2;
+					view.visible = true;					
+				}
+				else if(type == MENU_DATA)
+				{
+					view.selectedIndex = 3;
+					view.horizontalCenter = button.x - parent.width / 2 + button.width / 2;
+					view.visible = true;
+				}
+				else if(type == MENU_SET)
+				{
+					view.selectedIndex = 4;
+					view.horizontalCenter = button.x - parent.width / 2 + button.width / 2;
+					view.visible = true;
+				}
+				else if(type == MENU_FUN)
+				{
+					view.selectedIndex = 5;
+					view.horizontalCenter = button.x - parent.width / 2 + button.width / 2;
+					view.visible = true;
+				}
+			}				
+			
+			protected function datadownButtonDownHandler(event:FlexEvent):void
+			{
+				var downRequest:URLRequest = new URLRequest(WebServiceCommand.WSDL + "MMS/Data");
+				file.download(downRequest);				
+			}
+			
+			protected function dataupButtonDownHandler(event:FlexEvent):void
+			{
+				file.addEventListener(Event.SELECT,onSelect);
+				file.browse();
+				
+				function onSelect(event:Event):void
+				{
+					file.removeEventListener(Event.SELECT,onSelect);
+					
+					Alert.show("数据库恢复成功！","民建信息服务管理平台",4);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:Image left="0" source="@Embed('assets/image/MenuMain/title_1.png')"/>
+	<s:Image left="159" right="159" scaleMode="stretch"
+			 source="@Embed('assets/image/MenuMain/title_2.png')"/>
+	<s:Image right="0" source="@Embed('assets/image/MenuMain/title_3.png')"/>
+	<mx:ViewStack id="view" y="86" visible="false" resizeToContent="true">
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_TASK_NEW)"
+				upIcon="@Embed('assets/image/MenuSub/新建任务_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/新建任务_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_TASK_LIST)"
+				upIcon="@Embed('assets/image/MenuSub/任务管理_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/任务管理_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_SEND)"
+				upIcon="@Embed('assets/image/MenuSub/发送短信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发送短信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_DRAFT)"
+				upIcon="@Embed('assets/image/MenuSub/草稿箱_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/草稿箱_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_RECEIVE)"
+				upIcon="@Embed('assets/image/MenuSub/收件箱_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/收件箱_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>			
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_SENDSUCCESS)"
+				upIcon="@Embed('assets/image/MenuSub/发件箱_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发件箱_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<!--<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_SENDFAIL)"
+				upIcon="@Embed('assets/image/MenuSub/发出失败记录_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发出失败记录_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>-->
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_DICT)"
+				upIcon="@Embed('assets/image/MenuSub/短语库_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/短语库_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<!--<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_CUSTOM)"
+				upIcon="@Embed('assets/image/MenuSub/个性短信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/个性短信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				upIcon="@Embed('assets/image/MenuSub/EXCEL短信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/EXCEL短信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				upIcon="@Embed('assets/image/MenuSub/互动短信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/互动短信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>-->
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_HOLIDAY)"
+				upIcon="@Embed('assets/image/MenuSub/节日祝福语_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/节日祝福语_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<!--<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SMS_BIRTHDAY)"
+				upIcon="@Embed('assets/image/MenuSub/批量日期短信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/批量日期短信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>			-->
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_TASK_LIST)"
+				upIcon="@Embed('assets/image/MenuSub/任务管理_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/任务管理_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_MMS_DRAFT)"
+				upIcon="@Embed('assets/image/MenuSub/草稿箱_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/草稿箱_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_MMS_SEND)"
+				upIcon="@Embed('assets/image/MenuSub/发送彩信_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发送彩信_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_MMS_SENDSUCCESS)"
+				upIcon="@Embed('assets/image/MenuSub/发出成功记录_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发出成功记录_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_MMS_SENDFAILED)"
+				upIcon="@Embed('assets/image/MenuSub/发出失败记录_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发出失败记录_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="datadownButtonDownHandler(event)"
+				upIcon="@Embed('assets/image/MenuSub/数据库备份_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/数据库备份_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton 
+				buttonDown="dataupButtonDownHandler(event)"
+				upIcon="@Embed('assets/image/MenuSub/数据库恢复_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/数据库恢复_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SYS_SETTING)"
+				upIcon="@Embed('assets/image/MenuSub/系统设置_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/系统设置_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_SYS_PASSWORD)"
+				upIcon="@Embed('assets/image/MenuSub/修改密码_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/修改密码_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>		
+		<s:NavigatorContent skinClass="app.view.components.skin.skinMenuSub">	
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_MAIL)"
+				upIcon="@Embed('assets/image/MenuSub/发送邮件_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发送邮件_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>			
+			<!--	<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_FAX)"
+				upIcon="@Embed('assets/image/MenuSub/发送传真_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/发送传真_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>			
+			<subComponents:ImageButton
+				upIcon="@Embed('assets/image/MenuSub/即时通讯_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/即时通讯_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>			-->
+			<subComponents:ImageButton
+				buttonDown="ButtonDown(event,MENU_FUN_PHONE)"
+				upIcon="@Embed('assets/image/MenuSub/手机号码归属地查询_1.png')"
+				overIcon="@Embed('assets/image/MenuSub/手机号码归属地查询_2.png')"
+				skinClass="app.view.components.skin.skinImageButton"/>
+		</s:NavigatorContent>
+	</mx:ViewStack>
+	<s:HGroup horizontalCenter="0" height="78" y="10">		
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_SMS)"
+			upIcon="@Embed('assets/image/MenuMain/duanxin_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/duanxin_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_MMS)"
+			upIcon="@Embed('assets/image/MenuMain/caixin_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/caixin_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton 
+			buttonDown="ButtonDown(event,MENU_FUN)"
+			mouseOver="MenuMainHandle(event,MENU_FUN)"
+			upIcon="@Embed('assets/image/MenuMain/gongneng_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/gongneng_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+	<!--	<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_MAIL)"
+			upIcon="@Embed('assets/image/MenuMain/youjian_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/youjian_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_FAX)"
+			upIcon="@Embed('assets/image/MenuMain/chuanzhen_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/chuanzhen_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>-->
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_DATA)"
+			upIcon="@Embed('assets/image/MenuMain/shujuguanli_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/shujuguanli_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_SET)"
+			upIcon="@Embed('assets/image/MenuMain/shezhi_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/shezhi_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton
+			mouseOver="MenuMainHandle(event,MENU_HELP)"
+			upIcon="@Embed('assets/image/MenuMain/bangzhu_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/bangzhu_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+		<subComponents:ImageButton
+			buttonDown="ButtonDown(event,MENU_EXIT)"
+			mouseOver="MenuMainHandle(event,MENU_EXIT)"
+			upIcon="@Embed('assets/image/MenuMain/tuichu_1.png')"
+			overIcon="@Embed('assets/image/MenuMain/tuichu_2.png')"
+			skinClass="app.view.components.skin.skinImageButton"/>
+	</s:HGroup>		
+</s:Group>

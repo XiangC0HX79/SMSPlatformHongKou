@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="600" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="个性短信"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			public static const ADDGROUP:String = "addgroup";
+			public static const DELGROUP:String = "deletegroup";
+			
+			public static const CHANGEGROUP:String = "changegroup";
+			
+			public static const ADDPHRASE:String = "addphrase";
+			public static const DELPHRASE:String = "deletephrase";
+			
+			[Bindable]public var listGroup:ArrayCollection;		
+			
+			[Bindable]public var listPhrase:ArrayCollection;	
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup width="100%" verticalAlign="middle" >
+			<s:VGroup width="100%" height="100%">								
+				<s:Label text="短信列表："/>
+				<s:DataGrid id="gridPhrase" requestedRowCount="6" width="100%" dataProvider="{listPhrase}">
+					<s:columns>
+						<s:ArrayList>
+							<s:GridColumn dataField="ID" headerText="编号" width="100"></s:GridColumn>
+							<s:GridColumn dataField="phone" headerText="手机号码" width="200"></s:GridColumn>
+							<s:GridColumn dataField="message" headerText="短信"></s:GridColumn>
+						</s:ArrayList>
+					</s:columns>
+				</s:DataGrid>							
+				<s:Label text="短信内容："/>			
+				<s:TextArea width="100%" height="100" id="textPhrase"/>
+			</s:VGroup>
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">			
+			<s:Button label="导入Excel" 
+					  skinClass="app.view.components.skin.skinButton"/>					
+			<s:Button label="添　　加" 
+					  buttonDown="{dispatchEvent(new Event(ADDPHRASE));}"
+					  skinClass="app.view.components.skin.skinButton"/>				
+			<s:Button label="删　　除" 
+					  buttonDown="{dispatchEvent(new Event(DELPHRASE));}"
+					  skinClass="app.view.components.skin.skinButton"/>					
+			<s:Button label="编　　辑" 
+					  buttonDown="{dispatchEvent(new Event(DELPHRASE));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="立即发送"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>			
+			<s:Button label="定时发送"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="取　　消"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

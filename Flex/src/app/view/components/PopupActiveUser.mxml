@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark"
+							  xmlns:mx="library://ns.adobe.com/flex/mx"
+							  xmlns:subComponents="app.view.components.subComponents.*"
+							  width="100%" height="100%" enableIcon="false"
+							  enableMinimizeButton="false" panelTitle="激活用户" 
+							  creationComplete="init(event)"
+							  skinClass="app.view.components.skin.skinBasePopupPanel">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			public static const ACTIVEUSER:String = "激活用户";
+			public static const RESETPW:String = "重置密码";
+			
+			public static const SEND:String = "send";
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			[Bindable]public var userName:String;	
+			[Bindable]public var userPhone:String;		
+			[Bindable]public var verification:String = "";
+						
+			public var timer:Timer = new Timer(1000);
+			protected function sendButtonDownHandler(event:FlexEvent):void
+			{
+				btnSend.enabled = false;
+				
+				timer.start();
+				
+				dispatchEvent(new Event(SEND));
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				timer.repeatCount = 60;
+				timer.addEventListener(TimerEvent.TIMER,onTimer);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE,onTimerComplete);
+			}
+			
+			private function onTimer(event:TimerEvent):void
+			{
+				var count:Number = timer.repeatCount - timer.currentCount;
+				btnSend.label = "发送激活码(" + count.toString() + ")";
+			}
+			
+			private function onTimerComplete(event:TimerEvent):void
+			{
+				btnSend.enabled = true;
+				btnSend.label = "发送激活码";
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%" gap="10" rowHeight="30">
+		<s:Label text="用户尚未激活，请点击发送激活码按钮，从手机获得激活码进行激活。" id="labelToolTip"/>
+		<mx:HRule width="100%"/>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="　用户名称："/>
+			<s:Label text="{userName}"/>
+		</s:HGroup>
+		<s:HGroup width="100%" verticalAlign="middle">
+			<s:Label text="手机激活码："/>
+			<s:TextInput  width="100" id="textVer"/>
+			<s:Button id="btnSend" width="140" label="发送激活码"
+					  buttonDown="sendButtonDownHandler(event)"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="确定" 
+					  buttonDown="{dispatchEvent(new Event(OK));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="取消"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>

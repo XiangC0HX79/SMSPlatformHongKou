@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<subComponents:BasePopupPanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+							  xmlns:s="library://ns.adobe.com/flex/spark" 
+							  xmlns:mx="library://ns.adobe.com/flex/mx" 
+							  xmlns:subComponents="app.view.components.subComponents.*" 
+							  skinClass="app.view.components.skin.skinBasePopupPanel" 
+							  enableMinimizeButton="false" 
+							  enableIcon="false" 
+							  panelTitle="新建会员"
+							  width="800" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[			
+			import app.model.vo.ContactVO;
+			import app.model.vo.GroupVO;
+			import app.view.components.subComponents.ItemRendererGroup;
+			
+			import spark.components.supportClasses.ItemRenderer;
+			import spark.events.RendererExistenceEvent;
+			
+			public static const OK:String = "ok";
+			public static const CANCEL:String = "cancel";
+			
+			[Bindable]public var listGroup:ArrayCollection;
+			
+			[Bindable]public var contact:ContactVO = new ContactVO;
+			
+			protected function group_rendererAddHandler(event:RendererExistenceEvent):void
+			{
+				var itemRenderer:ItemRenderer = event.renderer as ItemRenderer;
+				itemRenderer.addEventListener(MouseEvent.CLICK,onGroupRendererClick);
+			}
+			
+			private function onGroupRendererClick(event:MouseEvent):void
+			{
+				var itemRenderer:ItemRendererGroup = event.currentTarget as ItemRendererGroup;		
+				var data:Object = itemRenderer.data;
+				data.selected = !data.selected;
+				
+				contact.group = "";
+				for each(var item:GroupVO in listGroup)
+				{
+					if(item.selected)
+					{
+						contact.group += item.label + ";";
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Binding source="contact.name" destination="textName.text" twoWay="true"/>
+	<fx:Binding source="contact.phone" destination="textPhone.text" twoWay="true"/>
+	<fx:Binding source="contact.mail" destination="textMail.text" twoWay="true"/>
+	
+	<s:VGroup width="100%">
+		<s:HGroup width="100%">
+			<s:HGroup width="50%" verticalAlign="middle">
+				<s:Label text="姓　　名："/>
+				<s:TextInput id="textName"/>
+			</s:HGroup>
+			<s:HGroup width="50%" verticalAlign="middle">
+				<s:Label text="姓　　别："/>
+				<s:ComboBox id="textSex">
+					<s:dataProvider>
+						<s:ArrayCollection>
+							<fx:String>男</fx:String>
+							<fx:String>女</fx:String>
+						</s:ArrayCollection>
+					</s:dataProvider>
+				</s:ComboBox>
+			</s:HGroup>	
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:HGroup width="50%" verticalAlign="middle">
+				<s:Label text="手　　机："/>
+				<s:TextInput id="textPhone"/>
+				<s:Label text="*"/>
+			</s:HGroup>
+			<s:HGroup width="50%" verticalAlign="middle">
+				<s:Label text="出生年月："/>
+				<s:TextInput id="textYear" restrict="0-9" width="60"/>
+				<s:Label text="年"/>
+				<s:TextInput id="textMonth" restrict="0-9" width="40"/>
+				<s:Label text="月"/>
+			</s:HGroup>
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:HGroup width="50%" verticalAlign="middle" color="0xFF0000">
+				<s:Label text="如有多个号码，请新建会员信息！"/>
+			</s:HGroup>
+			<s:HGroup width="50%" verticalAlign="middle">
+				<s:Label text="所属支部："/>
+				<s:ComboBox>
+					<s:ArrayCollection>
+						<fx:String>区委委员</fx:String>
+						<fx:String>区委直属</fx:String>
+						<fx:String>机关支部</fx:String>
+						<fx:String>经济一支部</fx:String>
+						<fx:String>经济二支部</fx:String>
+						<fx:String>经济三支部</fx:String>
+						<fx:String>财政金融支部</fx:String>
+						<fx:String>第一人民医院支部</fx:String>
+						<fx:String>虹口商业集团支部</fx:String>
+						<fx:String>雷允上支部</fx:String>
+						<fx:String>区工业集团支部</fx:String>
+						<fx:String>商会支部</fx:String>
+						<fx:String>市属工业支部</fx:String>
+						<fx:String>税务支部</fx:String>
+						<fx:String>文教卫支部</fx:String>
+						<fx:String>中海支部</fx:String>
+						<fx:String>退休一支部</fx:String>
+						<fx:String>退休二支部</fx:String>
+						<fx:String>新会员支部</fx:String>
+					</s:ArrayCollection>
+				</s:ComboBox>
+			</s:HGroup>
+		</s:HGroup>				
+		<mx:HRule width="100%"/>
+		<s:HGroup width="100%">
+			<s:VGroup width="50%">
+				<s:HGroup width="50%" verticalAlign="middle">
+					<s:Label text="电子邮箱："/>
+					<s:TextInput id="textMail"/>
+				</s:HGroup>
+				<s:HGroup width="50%" verticalAlign="middle">
+					<s:Label text="学　　历："/>
+					<s:TextInput id="textEducation"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="工作单位："/>
+					<s:TextInput id="textUnit"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="职　　务："/>
+					<s:TextInput id="textPost"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="单位地址："/>
+					<s:TextInput id="textUnitAddr"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="单位电话："/>
+					<s:TextInput id="textUnitPhone"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="家庭地址："/>
+					<s:TextInput id="textHomeAddr"/>
+				</s:HGroup>
+				<s:HGroup width="100%" verticalAlign="middle">
+					<s:Label text="家庭电话："/>
+					<s:TextInput id="textHomePhone"/>
+				</s:HGroup>
+			</s:VGroup>
+			<s:VGroup width="50%" height="100%">
+				<s:Label text="分　　组："/>
+				<s:List width="100%" height="300" dataProvider="{listGroup}"
+							 rendererAdd="group_rendererAddHandler(event)"
+							 itemRenderer="app.view.components.subComponents.ItemRendererGroup">
+					<s:layout>
+						<s:TileLayout/>
+					</s:layout>			
+				</s:List>
+			</s:VGroup>
+		</s:HGroup>
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="确定" width="30%"
+					  buttonDown="{dispatchEvent(new Event(OK));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+			<s:Button label="取消" width="30%"
+					  buttonDown="{dispatchEvent(new Event(SUBPANEL_CLOSED,true));}"
+					  skinClass="app.view.components.skin.skinButton"/>		
+		</s:HGroup>
+	</s:VGroup>
+</subComponents:BasePopupPanel>
