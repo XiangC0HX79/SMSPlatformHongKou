@@ -1,7 +1,7 @@
 # Build and Release Folders
 bin-debug/
 bin-release/
-flex-bin/
+flex_bin/
 
 # Other files and folders
 .settings/
