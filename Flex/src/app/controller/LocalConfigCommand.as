@@ -77,6 +77,8 @@ package app.controller
 				
 				SocketProxy.socketIP = xml.SocketIP;
 				
+				SocketProxy.socketPort = int(xml.SocketPort);
+				
 				(facade.retrieveProxy(SocketProxy.NAME) as SocketProxy).conect(onSocketConnect);
 				
 				//验证权限

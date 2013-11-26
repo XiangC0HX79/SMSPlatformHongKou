@@ -1,12 +1,12 @@
 package app.view
 {
+	import flash.events.Event;
+	
 	import app.AppNotification;
 	import app.model.AppConfigProxy;
 	import app.model.SocketProxy;
 	import app.model.vo.ContactVO;
 	import app.view.components.PopupActiveUser;
-	
-	import flash.events.Event;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -62,9 +62,9 @@ package app.view
 			var socket:SocketProxy = facade.retrieveProxy(SocketProxy.NAME) as SocketProxy;
 			socket.sendSMS(SocketProxy.METHOD_SENDVERIFICATION,popupActiveUser.userPhone,"","000",resultHandle);
 			
-			function resultHandle(xml:XML):void
+			function resultHandle(verification:String):void
 			{
-				popupActiveUser.verification = String(xml.verification);
+				popupActiveUser.verification = verification;
 			}
 		}		
 		

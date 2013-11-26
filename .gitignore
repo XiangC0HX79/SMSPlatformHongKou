@@ -15,3 +15,6 @@ Flex/flex_bin/
 Setup/*.exe
 Update/Update/bin/
 Update/Update/obj/
+SocketAsyncServer/SocketAsyncServer/bin
+SocketAsyncServer/SocketAsyncServer/obj
+WebService/App_Data/Data.mdb

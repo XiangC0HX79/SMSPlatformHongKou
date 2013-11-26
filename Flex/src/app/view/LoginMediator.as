@@ -38,8 +38,8 @@ package app.view
 		
 		private function onSubmit(event:Event):void
 		{
-			sendNotification(AppNotification.NOTIFY_APP_ALERTALARM,"系统正在维护，请稍后使用，给您带来的不便敬请谅解。");
-			return;
+			//sendNotification(AppNotification.NOTIFY_APP_ALERTALARM,"系统正在维护，请稍后使用，给您带来的不便敬请谅解。");
+			//return;
 			
 			var userName:String = StringUtil.trim(login.textUserName.text);
 			

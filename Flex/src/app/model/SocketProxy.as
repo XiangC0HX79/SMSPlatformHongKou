@@ -1,7 +1,5 @@
 package app.model
 {
-	import app.AppNotification;
-	
 	import flash.events.DataEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -16,6 +14,8 @@ package app.model
 	import mx.controls.Alert;
 	import mx.events.CloseEvent;
 	
+	import app.AppNotification;
+	
 	import org.puremvc.as3.interfaces.IProxy;
 	import org.puremvc.as3.patterns.proxy.Proxy;
 	
@@ -28,6 +28,8 @@ package app.model
 		public static const METHOD_SENDSMS:String = "method_sendSMS";
 		
 		public static var socketIP:String = "218.242.160.247";
+		
+		public static var socketPort:int = 4444;
 		
 		private var socket:Socket;  
 		
@@ -55,9 +57,9 @@ package app.model
 		{								
 			socket.addEventListener(Event.CONNECT,onConnect);	
 			
-			socket.connect(SocketProxy.socketIP,4444);
+			socket.connect(SocketProxy.socketIP,SocketProxy.socketPort);
 			
-			Security.loadPolicyFile("xmlsocket://" + SocketProxy.socketIP + ":" + 4444);
+			Security.loadPolicyFile("xmlsocket://" + SocketProxy.socketIP + ":" + SocketProxy.socketPort);
 						
 			function onConnect( event:Event ):void 
 			{  				
@@ -124,7 +126,7 @@ package app.model
 			
 			socket.addEventListener(Event.CONNECT,onConnect);			
 			
-			socket.connect(SocketProxy.socketIP,4444);
+			socket.connect(SocketProxy.socketIP,SocketProxy.socketPort);
 			
 			//Security.loadPolicyFile("xmlsocket://" + SocketProxy.socketIP + ":" + 4444);
 			
@@ -134,25 +136,21 @@ package app.model
 								
 				socket.addEventListener(ProgressEvent.SOCKET_DATA,onGetData);  
 				
-				socket.writeUTF(xml.toXMLString());
+				var s:String = xml.toXMLString();
+				
+				socket.writeUTFBytes(s);
+				
 				socket.flush();				
 				
 				trace("Socket连接.");  
 			}  
 			
-			var length:Number = 0;
 			var bytesArray:ByteArray = new ByteArray;	
 			
 			function onGetData( event:ProgressEvent ):void 
 			{  			
 				var target:Socket = event.target as Socket;
 				
-				if(length == 0)
-				{
-					var a:Number =  target.readUnsignedByte();
-					var b:Number =  target.readUnsignedByte();
-					length = b*256 + a;
-				}
 				
 				while(target.bytesAvailable)			
 				{			
@@ -162,19 +160,16 @@ package app.model
 					
 				}
 				
-				if(bytesArray.length >= length)
-				{
-					socket.removeEventListener(ProgressEvent.SOCKET_DATA,onGetData);  
+				var recv:String = bytesArray.readUTFBytes(bytesArray.length);
+				
+				socket.removeEventListener(ProgressEvent.SOCKET_DATA,onGetData);  
+				
+				socket.close();
 					
-					var xml:XML = XML(bytesArray.readUTFBytes(length));
-					
-					trace(xml);
-					
-					if(resultHandle != null)
-						resultHandle(xml);
-					
-					socket.close();
-				}
+				trace(recv);
+				
+				if(resultHandle != null)
+					resultHandle(recv);
 			}  
 		}
 	}

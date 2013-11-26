@@ -1,6 +1,7 @@
 <Config>
-	<!--<WebServiceUrl>http://localhost:1582/webService/</WebServiceUrl>
-	<SocketIP>127.0.0.1</SocketIP>-->
-	<WebServiceUrl>http://218.242.160.247/MJSMSWebService/</WebServiceUrl>
-	<SocketIP>218.242.160.247</SocketIP>
+	<WebServiceUrl>http://localhost:1582/webService/</WebServiceUrl>
+	<SocketIP>127.0.0.1</SocketIP>
+	<!--<WebServiceUrl>http://218.242.160.247/MJSMSWebService/</WebServiceUrl>-->
+	<!--<SocketIP>218.242.160.247</SocketIP>-->
+	<SocketPort>12008</SocketPort>
 </Config>

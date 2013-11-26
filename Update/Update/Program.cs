@@ -15,18 +15,15 @@ namespace Update
 
             try
             {
-                //foreach (System.Diagnostics.Process thisProc in System.Diagnostics.Process.GetProcesses())
-                //{
-                //    if (thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
-                //    {
-                //        thisProc.Kill();
-                //        break;
-                //    }
-                //}
-
-                var path = @"D:\dkqn-huangxiang-smsplatform\flex_bin\";
-                File.AppendAllText(path + @"msg.html", "TestFlex\n");
-                //File.Copy(path + @"App_Data\Data.mdb",path + @"Log\Data.xml");
+                foreach (System.Diagnostics.Process thisProc in System.Diagnostics.Process.GetProcesses())
+                {
+                    if ((thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
+                        ||
+                        (thisProc.ProcessName.ToLower() == "Update".ToLower()))
+                    {
+                        thisProc.Kill();
+                    }
+                }
             }
             catch (Exception ex)
             {

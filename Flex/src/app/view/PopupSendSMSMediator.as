@@ -1,5 +1,12 @@
 package app.view
 {
+	import flash.events.Event;
+	
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.events.CloseEvent;
+	import mx.utils.StringUtil;
+	
 	import app.AppNotification;
 	import app.model.AppConfigProxy;
 	import app.model.ContactProxy;
@@ -13,13 +20,6 @@ package app.view
 	import app.model.vo.GroupVO;
 	import app.model.vo.SMSVO;
 	import app.view.components.PopupSendSMS;
-	
-	import flash.events.Event;
-	
-	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
-	import mx.events.CloseEvent;
-	import mx.utils.StringUtil;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -114,7 +114,7 @@ package app.view
 				}
 			}
 			
-			function resultHandle(result:XML):void
+			function resultHandle(result:String):void
 			{
 				sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);
 				

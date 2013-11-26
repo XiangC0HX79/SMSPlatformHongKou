@@ -154,7 +154,29 @@ package app.view
 				
 				case Menu.MENU_SYS_UPDATE:
 					update();
+					//update2();
 					break;
+			}
+		}
+		
+		private function update2():void
+		{			
+			var fileRef:FileReference = new FileReference;
+			fileRef.addEventListener(Event.SELECT,onFileSelect);	
+			fileRef.addEventListener(Event.COMPLETE,onFileCom); 
+						
+			fileRef.browse();
+			
+			function onFileSelect(event:Event):void
+			{					
+				var request:URLRequest = new URLRequest();
+				request.url= WebServiceCommand.WSDL + "MailService.aspx";
+				
+				fileRef.upload(request);
+			}
+			
+			function onFileCom(event:Event):void   
+			{   		
 			}
 		}
 		

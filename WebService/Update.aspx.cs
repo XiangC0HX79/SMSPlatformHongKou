@@ -12,6 +12,16 @@ public partial class Update : System.Web.UI.Page
     {
         try
         {
+            foreach (System.Diagnostics.Process thisProc in System.Diagnostics.Process.GetProcesses())
+            {
+                if ((thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
+                    ||
+                    (thisProc.ProcessName.ToLower() == "irsetup".ToLower()))
+                {
+                    thisProc.Kill();
+                }
+            }
+
             var path = string.Format(@"{0}\Update.exe", Server.MapPath("App_Data"));
 
             var byteArr = new Byte[Request.InputStream.Length];
