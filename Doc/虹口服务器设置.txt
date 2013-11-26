@@ -1,0 +1,8 @@
+Web��ַ
+http://218.242.160.247/MJHK/Main.html
+
+FlexĿ¼
+D:\dkqn-huangxiang-smsplatform\flex_bin\
+
+WebServiceĿ¼
+D:\dkqn-huangxiang-smsplatform\webService\

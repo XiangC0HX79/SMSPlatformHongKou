@@ -10,3 +10,8 @@ flex_bin/
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
 SocketAsyncServer/bin/
+Setup/Autosave/
+Flex/flex_bin/
+Setup/*.exe
+Update/Update/bin/
+Update/Update/obj/
