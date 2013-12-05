@@ -106,9 +106,9 @@
 	</s:HGroup>
 	<s:HGroup verticalAlign="middle">		
 		<s:Label text="开始时间："/>
-		<subComponents:PanelTime id="panelBeginTime" beginTime="{new Date(2012,0,1)}"/>
+		<subComponents:PanelTime id="panelBeginTime" beginTime="{new Date}"/>
 		<s:Label text="结束时间："/>
-		<subComponents:PanelTime id="panelEndTime" beginTime="{new Date(2013,0,1)}"/>
+		<subComponents:PanelTime id="panelEndTime" beginTime="{new Date}"/>
 	</s:HGroup>
 	<s:HGroup verticalAlign="middle">
 		<s:Label text="电话号码："/>

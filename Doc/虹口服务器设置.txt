@@ -6,3 +6,8 @@ D:\dkqn-huangxiang-smsplatform\flex_bin\
 
 WebServiceÄ¿Â¼
 D:\dkqn-huangxiang-smsplatform\webService\
+
+¶ÌÐÅÍ¨
+EmppHost = "211.136.163.68";
+EmppPort = 9981;
+EmppAccountId = "10657109080176";

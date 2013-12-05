@@ -17,34 +17,19 @@ public partial class Update : System.Web.UI.Page
             {
                 if ((thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
                     ||
-                    (thisProc.ProcessName.ToLower() == "irsetup".ToLower()))
+                    (thisProc.ProcessName.ToLower() == "irsetup".ToLower())
+                    ||
+                    (thisProc.ProcessName.ToLower() == "update".ToLower()))
                 {
                     thisProc.Kill();
                 }
             }
 
-            var path = string.Format(@"{0}\Update.exe", Server.MapPath("App_Data"));
+            var path = string.Format(@"{0}\Update.exe", Server.MapPath(""));
 
-            var byteArr = new Byte[Request.InputStream.Length];
+            Process.Start(path, "");
 
-            if (byteArr.Length > 0)
-            {
-                Request.InputStream.Read(byteArr, 0, byteArr.Length);
-
-                var file = new FileStream(path, FileMode.Create);
-
-                file.Write(byteArr, 0, byteArr.Length);
-                file.Flush();
-                file.Close();
-                               
-                Process.Start(path, "");
-
-                Response.Write("000");
-            }
-            else
-            {
-                Response.Write("更新文件长度为0。");
-            }
+            Response.Write("更新成功");
         }
         catch (Exception ex)
         {

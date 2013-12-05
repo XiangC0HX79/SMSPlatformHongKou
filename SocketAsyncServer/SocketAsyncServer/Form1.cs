@@ -20,13 +20,17 @@ namespace SocketAsyncServer
     {
         private readonly TcpAsyncServer _tcpAsyncServer;
         private readonly emptcl _empp = new emptclClass();
-
+        private readonly ClsGetData _clsGetData;
+               
         public const string EmppHost = "211.136.163.68";
         public const int EmppPort = 9981;
         public const string EmppAccountId = "10657109080176";
-        private string _EmppPassword = "10657109080176";
+        private string _EmppPassword = "";
+
+        private Dictionary<string, int> _emppIDs = new Dictionary<string, int>();
 
         private int _ConnectCount = 0;
+        private bool _IsPatrol = false;
 
         public Form1()
         {
@@ -37,7 +41,7 @@ namespace SocketAsyncServer
                 _tcpAsyncServer = new TcpAsyncServer(Convert.ToInt32(ConfigurationManager.AppSettings["ServerPort"]), IPAddress.Any);
                 _tcpAsyncServer.DataReceived += tcpAsynServer_DataReceived;
                 _tcpAsyncServer.Connected += tcpAsynServer_Connected;
-
+               
                 _empp.needStatus = true;
 
                 _empp.EMPPClosed += (new _IemptclEvents_EMPPClosedEventHandler(EMPPClosed));
@@ -47,15 +51,16 @@ namespace SocketAsyncServer
                 _empp.StatusReceivedInterface += (new _IemptclEvents_StatusReceivedInterfaceEventHandler(StatusReceivedInterface));
                 _empp.SubmitRespInterface += (new _IemptclEvents_SubmitRespInterfaceEventHandler(SubmitRespInterface));
 
-                var clsGetData = new ClsGetData("System.Data.OleDb", ConfigurationManager.AppSettings["DBConStr"]);
-                var o = clsGetData.GetValue("SELECT 参数值 FROM 系统设置 WHERE 参数名称 = '平台密码'");
+                _clsGetData = new ClsGetData("System.Data.OleDb", ConfigurationManager.AppSettings["DBConStr"]);
+
+                var o = _clsGetData.GetValue("SELECT 参数值 FROM 系统设置 WHERE 参数名称 = '平台密码'");
                 if (o == null)
                 {
-                    WriteSystemErrorLog.ntWriteLogSystemTxt("初始化错误: " + clsGetData.ErrorString);
+                    WriteSystemErrorLog.ntWriteLogSystemTxt("初始化错误: " + _clsGetData.ErrorString);
                 }
                 else
                 {
-                    _EmppPassword = clsGetData.GetValue("SELECT 参数值 FROM 系统设置 WHERE 参数名称 = '平台密码'").ToString();
+                    _EmppPassword = o.ToString();
 
                     ConnnectEmpp(0);
                 }
@@ -80,6 +85,16 @@ namespace SocketAsyncServer
                 if (!_empp.connected)
                 {
                     ConnnectEmpp(0);
+                }
+                else
+                {
+                    if ((DateTime.Now.TimeOfDay > TimeSpan.FromHours(8))
+                        && !_IsPatrol)
+                    {
+                        _IsPatrol = true;
+
+                        SendSms("15921065956", "系统巡检", "000");
+                    }
                 }
             }
             else
@@ -113,11 +128,10 @@ namespace SocketAsyncServer
 
             try
             {
-                
-            //收到指令后打印出来
-            var sRecv = Encoding.UTF8.GetString(bRecv);
+                //收到指令后打印出来
+                var sRecv = Encoding.UTF8.GetString(bRecv);
 
-            WriteSystemErrorLog.ntWirteTcpReceiveInfomation(sockWrapper.Client.RemoteEndPoint.ToString(), "DataReceived", sRecv);
+                WriteSystemErrorLog.ntWirteTcpReceiveInfomation(sockWrapper.Client.RemoteEndPoint.ToString(), "DataReceived", sRecv);
 
 
                 if (sRecv == "<policy-file-request/>\0")
@@ -163,9 +177,30 @@ namespace SocketAsyncServer
                     {
                         var phone = xmlDocReceive.SelectSingleNode("/xml/phone").InnerText;
                         var message = xmlDocReceive.SelectSingleNode("/xml/message").InnerText;
-                        var serviceID = xmlDocReceive.SelectSingleNode("/xml/serviceID").InnerText;
+                        var serviceId = xmlDocReceive.SelectSingleNode("/xml/serviceID").InnerText;
 
-                        SendSms(phone, message, serviceID);
+                        var aMobs = phone.Split(';');
+                        foreach (var mob in aMobs.Where(mob => (mob.Length == 11)))
+                        {
+                            var sendId = InsertSend(mob, message, "SENDING", serviceId);
+
+                            for (var i = 0; i < 3; i++)
+                            {
+                                if (SendSms(mob, message, serviceId, sendId))
+                                    break;
+
+                                Thread.Sleep(10000);
+
+                                var o = _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId));
+
+                                if ((o != null) && (o.ToString() == ""))
+                                    _clsGetData.SetTable(
+                                        String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',时间 = now() WHERE ID = {1}", "FAILED",
+                                            sendId));
+                                else
+                                    break;
+                            }
+                        }
 
                         var bSend = Encoding.UTF8.GetBytes("Send Complete.");
 
@@ -198,34 +233,104 @@ namespace SocketAsyncServer
             }
         }
 
-        private void SendSms(String pMods, String pMessage, String serviceId)
+        private int InsertSend(String phone, String message, String status,String userId)
         {
-            ShortMessage shortMsg = new ShortMessageClass();
-            shortMsg.srcID = EmppAccountId;
-            shortMsg.content = pMessage;
-            shortMsg.ServiceID = serviceId;
-            shortMsg.needStatus = true;
-            shortMsg.SendNow = true;
+            var o = _clsGetData.GetValue(String.Format("SELECT 手机号码 FROM 会员名单 WHERE ID = {0}",userId));
+            var sendPhone = (o != null)?o.ToString():"";
 
-            String[] aMobs = pMods.Split(';');
-            Mobiles mobs = new MobilesClass();
-            foreach (String mob in aMobs)
+            o = _clsGetData.GetValue("SELECT 姓名 FROM 会员名单 WHERE InStr(手机号码,'" + phone + "') > 0");
+            var people = (o != null) ? o.ToString() : "";
+
+            var sql = "INSERT INTO 短信_发件箱 (时间,手机号码,短信,状态,姓名,发送号码) values (now(),'"
+                    + phone + "','" + message + "','" + status + "','" + people + "','" + sendPhone + "')";
+
+            var resultCount = _clsGetData.SetTable(sql);
+            if (resultCount > 0)
             {
-                if (mob.Trim() != "")
+                sql = "SELECT MAX(ID) FROM 短信_发件箱";
+                return Convert.ToInt32(_clsGetData.GetValue(sql));
+            }
+            else
+            {
+                return resultCount;
+            }
+        }
+
+        private void SendSms(String mob, String pMessage, String serviceId)
+        {
+            try
+            {
+                ShortMessage shortMsg = new ShortMessageClass();
+                shortMsg.srcID = EmppAccountId;
+                shortMsg.content = pMessage;
+                shortMsg.ServiceID = serviceId;
+                shortMsg.needStatus = true;
+                shortMsg.SendNow = true;
+
+                Mobiles mobs = new MobilesClass();
+                mobs.Add(mob);
+
+                shortMsg.DestMobiles = mobs;
+
+                if (_empp.connected)
                 {
-                    mobs.Add(mob.Trim());
+                    _empp.submit(shortMsg);
                 }
             }
-
-            shortMsg.DestMobiles = mobs;
-
-            if (_empp.connected)
+            catch (Exception ex)
             {
-                WriteSystemErrorLog.ntWriteLogSystemTxt("发送前状态：seqId=" + _empp.SequenceID + ",msgId=" + _empp.MsgID + ",电话=" + pMods + ",内容=" + pMessage + ",用户=" + serviceId);
+                throw ex;
+            }
+        }
 
-                _empp.submit(shortMsg);
+        private bool SendSms(String mob, String pMessage, String serviceId,int sendId)
+        {
+            try
+            {
+                ShortMessage shortMsg = new ShortMessageClass();
+                shortMsg.srcID = EmppAccountId;
+                shortMsg.content = pMessage;
+                shortMsg.ServiceID = serviceId;
+                shortMsg.needStatus = true;
+                shortMsg.SendNow = true;
+                
+                Mobiles mobs = new MobilesClass();
+                mobs.Add(mob);
 
-                WriteSystemErrorLog.ntWriteLogSystemTxt("发送后状态：seqId=" + _empp.SequenceID + ",msgId=" + _empp.MsgID);
+                shortMsg.DestMobiles = mobs;
+
+                if (_empp.connected)
+                {
+                    WriteSystemErrorLog.ntWriteLogSystemTxt("发送前状态：seqId=" + _empp.SequenceID + ",msgId=" + _empp.MsgID + ",电话=" + mob + ",内容=" + pMessage + ",用户=" + serviceId);
+
+                    _emppIDs[_empp.SequenceID] = sendId;
+                            
+                    _empp.submit(shortMsg);
+
+                    var msgId =
+                        _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId)).ToString();
+
+                    if (msgId == "")
+                    {
+                        WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：短信未能提交到服务器。");
+
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：未连接Empp服务器。");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：" + ex.Message);
+                return false;
             }
         }
 
@@ -252,6 +357,19 @@ namespace SocketAsyncServer
         {
             WriteSystemErrorLog.ntWriteLogSystemTxt("MessageReceivedInterface。");
 
+            var o = _clsGetData.GetValue(String.Format("SELECT 姓名 FROM 会员名单 WHERE InStr(手机号码,'{0}') > 0",sm.srcID));
+            var people = (o != null) ? o.ToString() : "";
+
+            _clsGetData.SetTable(String.Format("INSERT INTO 短信_收件箱 (时间,手机号码,短信,姓名) values (now(),'{0}','{1}','{2}')",sm.srcID,sm.content,people));
+
+            o =
+                _clsGetData.GetValue(String.Format("SELECT TOP 1 发送号码 FROM 短信_发件箱 WHERE 手机号码 = '{0}' ORDER BY 时间 DESC",
+                    sm.srcID));
+
+            var phone = (o != null) ? o.ToString() : "";
+            if (phone != "")
+                SendSms(phone, sm.content + " " + people, "000");
+
             //string str = "手机回复:srcId=" + sm.srcID + ",content=" + sm.content + "企业扩展位" + sm.DestID + ",ServiceID=" + sm.ServiceID + ",MsgID=" + sm.MsgID;
             //Console.WriteLine(str);
             //Program.testWriter.WriteLine(str);
@@ -269,42 +387,21 @@ namespace SocketAsyncServer
 
         private void StatusReceivedInterface(StatusReport sm)
         {
-            WriteSystemErrorLog.ntWriteLogSystemTxt("收到状态:seqId=" + sm.SeqID + ",msgId=" + sm.MsgID + ",mobile=" + sm.DestID + ",destId=" + sm.SrcTerminalId + ",stat=" + sm.Status + ",serviceID=" + sm.ServiceID);
+            WriteSystemErrorLog.ntWriteLogSystemTxt("收到状态:seqId=" + sm.SeqID + ",msgId=" + sm.MsgID + ",mobile=" + sm.DestID + ",destId=" + sm.SrcTerminalId + ",stat=" + sm.Status + ",serviceID=" + sm.ServiceID + ",emmp seqId=" + _empp.SequenceID);
 
-            //string str = "收到状态:seqId=" + sm.SeqID + ",msgId=" + sm.MsgID + ",mobile=" + sm.DestID + ",destId=" + sm.SrcTerminalId + ",stat=" + sm.Status + ",serviceID=" + sm.ServiceID;
-            //Console.WriteLine(str);
-            //Program.testWriter.WriteLine(str);
-
-            //ServiceReference1.ServiceSoapClient sc = new SocketAsyncServer.ServiceReference1.ServiceSoapClient();
-            //try
-            //{
-            //    sc.UpdateSend("", sm.Status, sm.MsgID);
-            //}
-            //catch (Exception e)
-            //{
-            //}
+            _clsGetData.SetTable(String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',时间 = now() WHERE 短信ID = '{1}'", sm.Status, sm.MsgID));
         }
 
         private void SubmitRespInterface(SubmitResp sm)
         {
-            WriteSystemErrorLog.ntWriteLogSystemTxt("提交状态:msgId=" + sm.MsgID + ",seqId=" + sm.SequenceID + ",result=" + sm.Result);
+            WriteSystemErrorLog.ntWriteLogSystemTxt("提交状态:msgId=" + sm.MsgID + ",seqId=" + sm.SequenceID + ",result=" + sm.Result+",emmp seqId=" + _empp.SequenceID);
 
-            //string str = "提交状态:msgId=" + sm.MsgID + ",seqId=" + sm.SequenceID + ",result=" + sm.Result;
-            //Console.WriteLine(str);
-            //Program.testWriter.WriteLine(str);
+            var key = (sm.SequenceID - 1).ToString();
 
-            //if (emppIDs.ContainsKey(sm.SequenceID - 1))
-            //{
-            //    ServiceReference1.ServiceSoapClient sc = new SocketAsyncServer.ServiceReference1.ServiceSoapClient();
+            if (!_emppIDs.ContainsKey(key)) return;
 
-            //    try
-            //    {
-            //        sc.UpdateSend(emppIDs[sm.SequenceID - 1], sm.Result.ToString(), sm.MsgID);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //    }
-            //}
+            var sendId = _emppIDs[key];
+            _clsGetData.SetTable(String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',短信ID = '{1}',时间 = now() WHERE ID = {2}", sm.Result,sm.MsgID, sendId));
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)

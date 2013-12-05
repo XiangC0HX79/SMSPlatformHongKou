@@ -8,12 +8,13 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
-			import app.model.vo.ContactVO;
-			import app.model.vo.GroupVO;
-			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.events.ListEvent;
+			import mx.utils.StringUtil;
+			
+			import app.model.vo.ContactVO;
+			import app.model.vo.GroupVO;
 			
 			[Bindable]
 			[Embed(source="assets/image/LeftPanel/我的同事.png")]
@@ -48,6 +49,28 @@
 						s += phone + ";";
 					}
 				}
+				
+				var listTemp:Array = s.split(";");
+				var listMobs:Array = [];
+				for each(var mob:String in listTemp)
+				{
+					var trimMob:String = StringUtil.trim(mob);
+					if(
+						(trimMob != "") 
+						&& (trimMob.length == 11) 
+						//&& ((trimMob.substr(0,2) == "13") || (trimMob.substr(0,2) == "15") || (trimMob.substr(0,2) == "18") || (trimMob.substr(0,2) == "14"))
+						&& (listMobs.indexOf(trimMob) < 0)
+					)
+					{
+						listMobs.push(trimMob);
+					}
+				}
+				
+				s = "";
+				for each(phone in listMobs)
+				{
+					s += phone + ";";
+				}				
 				
 				return s;
 			}

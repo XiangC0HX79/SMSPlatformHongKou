@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Update
 {
@@ -11,23 +6,20 @@ namespace Update
     {
         static void Main(string[] args)
         {
-            var pathLog = @"D:\dkqn-huangxiang-smsplatform\webService\Log\";
-
+            String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source="
+                     + @"D:\dkqn-huangxiang-smsplatform\webService\App_Data\Data.mdb"
+                     + ";Extended Properties=";
             try
             {
-                foreach (System.Diagnostics.Process thisProc in System.Diagnostics.Process.GetProcesses())
-                {
-                    if ((thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
-                        ||
-                        (thisProc.ProcessName.ToLower() == "Update".ToLower()))
-                    {
-                        thisProc.Kill();
-                    }
-                }
+                var clsGetData = new ClsGetData("System.Data.OleDb", conStr);
+
+                var sql = "ALTER TABLE 短信_发件箱 ADD 发送号码 CHAR(20)";
+
+                clsGetData.SetTable(sql);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                File.AppendAllText(pathLog + @"msg.html", "Error: " + ex.Message + "\n");
+                throw;
             }
         }
     }

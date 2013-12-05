@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Copy.aspx.cs" Inherits="MAIL_Copy" %>

@@ -1,19 +1,22 @@
 package app.view
 {
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
+	import flash.net.FileReference;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
+	import flash.utils.ByteArray;
+	
 	import app.AppNotification;
+	import app.ApplicationFacade;
 	import app.controller.WebServiceCommand;
 	import app.model.AppConfigProxy;
 	import app.model.vo.AppConfigVO;
 	import app.model.vo.MMSVO;
 	import app.model.vo.SMSVO;
 	import app.view.components.Menu;
-	
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.net.FileReference;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
 	
 	import org.puremvc.as3.interfaces.IMediator;
 	import org.puremvc.as3.interfaces.INotification;
@@ -153,10 +156,103 @@ package app.view
 					break;
 				
 				case Menu.MENU_SYS_UPDATE:
-					update();
-					//update2();
+					//update();
+					update2();
+					//update3();
 					break;
 			}
+		}
+		
+		private var pageIndex:Number = 0;
+		private function update3():void
+		{
+			var fileRef:FileReference = new FileReference;
+			fileRef.addEventListener(Event.SELECT,onFileSelect);	
+			fileRef.addEventListener(Event.COMPLETE,onFileLoad); 
+			
+			fileRef.addEventListener(IOErrorEvent.IO_ERROR,onIOError);
+			
+			fileRef.browse();
+			
+			var pageLength:Number = 4096;
+			var pageNumber:Number;
+			
+			var requestData:ByteArray;
+			var urlLoader:URLLoader = new URLLoader();
+			urlLoader.addEventListener(Event.COMPLETE, onUpload);
+			urlLoader.addEventListener(IOErrorEvent.IO_ERROR,onIOError);
+			
+			function upload(len:Number):void
+			{
+				trace((new Date).toLocaleTimeString() + " " + pageIndex + "/" + pageNumber + " File Size:" + len + " Upload Size:" + pageIndex * pageLength);	
+				
+				var pageLen:Number = (pageIndex < pageNumber - 1)?pageLength:(requestData.length - (pageNumber - 1) * pageLength);
+				var data:ByteArray = new ByteArray;		
+				data.writeBytes(requestData,pageIndex * pageLength,pageLen);
+									
+				var id:String = (pageIndex % 8).toString();
+				var url:String =  WebServiceCommand.WSDL + "Mail/Upload" + id + ".aspx";
+				url += "?fileName=" + fileRef.name;	
+				url += "&pageIndex=" + pageIndex;	
+				url += "&pageLen=" + pageLen;	
+				
+				var request:URLRequest = new URLRequest(encodeURI(url));	
+				request.method = URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";		
+				request.data = data;	
+				
+				urlLoader.load(request);
+			}
+			
+			function onFileSelect(event:Event):void
+			{					
+				sendNotification(AppNotification.NOTIFY_APP_LOADINGSHOW,"正在上传文件...");
+				
+				fileRef.load(); 
+			}
+			
+			function onFileLoad(event:Event):void   
+			{   		
+				requestData = event.currentTarget.data as ByteArray;
+							
+				pageNumber = Math.ceil(requestData.length / pageLength);	
+				
+				//pageIndex = 0;
+				
+				upload(0);
+			}
+			
+			function onUpload(event:Event):void
+			{	
+				var len:Number = Number(event.target.data);
+				
+				if(isNaN(len))
+				{
+					trace(String(event.target.data));
+				}
+				else
+				{				
+					pageIndex ++;
+				}
+						
+				
+				if(pageIndex == pageNumber)
+					sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);	
+				else
+				{					
+					upload(len);
+				}
+			}
+			
+			function onIOError(event:IOErrorEvent):void
+			{
+				//sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);	
+				
+				trace("onIOError");
+								
+				upload(pageIndex * pageLength);
+				
+			}	
 		}
 		
 		private function update2():void
@@ -164,6 +260,9 @@ package app.view
 			var fileRef:FileReference = new FileReference;
 			fileRef.addEventListener(Event.SELECT,onFileSelect);	
 			fileRef.addEventListener(Event.COMPLETE,onFileCom); 
+			fileRef.addEventListener(ProgressEvent.PROGRESS,onProgress);
+			
+			fileRef.addEventListener(IOErrorEvent.IO_ERROR,onIOError);
 						
 			fileRef.browse();
 			
@@ -177,7 +276,20 @@ package app.view
 			
 			function onFileCom(event:Event):void   
 			{   		
+				trace("onFileCom");
 			}
+			
+			function onProgress(event:ProgressEvent):void
+			{
+				trace(event.bytesLoaded + "/" + event.bytesTotal);
+			}
+			
+			function onIOError(event:IOErrorEvent):void
+			{
+				sendNotification(AppNotification.NOTIFY_APP_LOADINGHIDE);		
+				
+				sendNotification(AppNotification.NOTIFY_APP_ALERTERROR,"文件传输失败。");	
+			}	
 		}
 		
 		private function update():void

@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Upload7.aspx.cs" Inherits="Upload7" %>

@@ -2,6 +2,7 @@
 using System.Data;
 
 using System.Data.Common;
+using CommonUtility;
 
 /// <summary>
 /// 类：访问数据库
@@ -64,6 +65,8 @@ public class ClsGetData
         }
         catch (Exception errMsg)
         {
+            WriteSystemErrorLog.ntWriteLogSystemTxt(errMsg.Message);
+
             _errorString = errMsg.Message;
             return ErrorTable;
         }
@@ -92,6 +95,8 @@ public class ClsGetData
         }
         catch (Exception errMsg)
         {
+            WriteSystemErrorLog.ntWriteLogSystemTxt(errMsg.Message);
+
             _errorString = errMsg.Message;
             result = null;
         }
@@ -124,6 +129,8 @@ public class ClsGetData
         }
         catch (Exception errMsg)
         {
+            WriteSystemErrorLog.ntWriteLogSystemTxt(errMsg.Message);
+
             _errorString = errMsg.Message;
             iCount = 0;
         }
@@ -166,6 +173,8 @@ public class ClsGetData
         }
         catch (Exception errMsg)
         {
+            WriteSystemErrorLog.ntWriteLogSystemTxt(errMsg.Message);
+
             if (dbConnection.State == ConnectionState.Open)
                 dbTrans.Rollback();
 

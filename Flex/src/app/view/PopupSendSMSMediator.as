@@ -67,6 +67,7 @@ package app.view
 			
 			var listNames:Array = popupSendSMS.panelSelectContact.names.split(";");
 			var listMobs:Array = popupSendSMS.panelSelectContact.mobs.split(";");
+						
 			if(listNames.length > 1)
 			{
 				var count:Number = Math.min(5,listNames.length - 1);

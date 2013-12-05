@@ -16,7 +16,9 @@ public partial class Update : System.Web.UI.Page
             {
                 if ((thisProc.ProcessName.ToLower() == "SocketAsyncServer".ToLower())
                     ||
-                    (thisProc.ProcessName.ToLower() == "irsetup".ToLower()))
+                    (thisProc.ProcessName.ToLower() == "irsetup".ToLower())
+                    ||
+                    (thisProc.ProcessName.ToLower() == "update".ToLower()))
                 {
                     thisProc.Kill();
                 }

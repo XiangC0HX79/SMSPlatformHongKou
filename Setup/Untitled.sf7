@@ -5,19 +5,19 @@
 <ArchiveFiles>
 <FileData>
 <FldRef>0</FldRef>
-<FullName>F:\Workspace\上海虹口民建信息管理平台\源代码\SocketAsyncServer\SocketAsyncServer\bin\x86\Release\SocketAsyncServer.exe</FullName>
-<FileName>SocketAsyncServer.exe</FileName>
-<Source>F:\Workspace\上海虹口民建信息管理平台\源代码\SocketAsyncServer\SocketAsyncServer\bin\x86\Release</Source>
-<Ext>exe</Ext>
+<FullName>F:\Workspace\CommonUtility .net 3.5\bin\Release\CommonUtility.dll</FullName>
+<FileName>CommonUtility.dll</FileName>
+<Source>F:\Workspace\CommonUtility .net 3.5\bin\Release</Source>
+<Ext>dll</Ext>
 <RTSource>存档</RTSource>
 <Desc/>
 <Recurse>1</Recurse>
 <MatchMode>0</MatchMode>
-<Size>9216</Size>
+<Size>64000</Size>
 <Attrib>32</Attrib>
-<TmCreate>1385454369</TmCreate>
-<TmAccess>1385461617</TmAccess>
-<TmModify>1385461617</TmModify>
+<TmCreate>1385451452</TmCreate>
+<TmAccess>1386117912</TmAccess>
+<TmModify>1386117912</TmModify>
 <UseTrueVer>1</UseTrueVer>
 <ProdVerMS>65536</ProdVerMS>
 <ProdVerLS>0</ProdVerLS>
@@ -32,13 +32,13 @@
 <InstallOrder>1000</InstallOrder>
 <SCStartRoot>0</SCStartRoot>
 <SCStartProgs>0</SCStartProgs>
-<SCAppFld>1</SCAppFld>
+<SCAppFld>0</SCAppFld>
 <SCStartup>0</SCStartup>
 <SCDesk>0</SCDesk>
 <SCQLaunch>0</SCQLaunch>
 <SCCust>0</SCCust>
 <CustSCPath/>
-<SCDesc>SocketAsyncServer</SCDesc>
+<SCDesc>CommonDAL</SCDesc>
 <SCComment/>
 <SCArgs/>
 <SCWork/>
@@ -1646,7 +1646,7 @@ g_HandleSystemReboot();
 <PostBuildProg/>
 <PostBuildCmdLine/>
 <PostBuildWait>0</PostBuildWait>
-<Filename>setup 1.0.4.exe</Filename>
+<Filename>setup 1.0.7.exe</Filename>
 <OutputFolder>F:\Workspace\上海虹口民建信息管理平台\源代码\Setup</OutputFolder>
 <SegmentSizeMode>0</SegmentSizeMode>
 <CustomSegSize>100</CustomSegSize>
