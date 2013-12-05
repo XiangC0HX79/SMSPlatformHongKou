@@ -17,4 +17,5 @@ Update/Update/bin/
 Update/Update/obj/
 SocketAsyncServer/SocketAsyncServer/bin
 SocketAsyncServer/SocketAsyncServer/obj
-WebService/App_Data/Data.mdb
+Flex/flex_bin/
+WebService/App_Data/
