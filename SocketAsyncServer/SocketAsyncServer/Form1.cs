@@ -355,8 +355,6 @@ namespace SocketAsyncServer
                
         private void MessageReceivedInterface(SMDeliverd sm)
         {
-            WriteSystemErrorLog.ntWriteLogSystemTxt("MessageReceivedInterface。");
-
             var o = _clsGetData.GetValue(String.Format("SELECT 姓名 FROM 会员名单 WHERE InStr(手机号码,'{0}') > 0",sm.srcID));
             var people = (o != null) ? o.ToString() : "";
 
@@ -394,13 +392,14 @@ namespace SocketAsyncServer
 
         private void SubmitRespInterface(SubmitResp sm)
         {
-            WriteSystemErrorLog.ntWriteLogSystemTxt("提交状态:msgId=" + sm.MsgID + ",seqId=" + sm.SequenceID + ",result=" + sm.Result+",emmp seqId=" + _empp.SequenceID);
-
             var key = (sm.SequenceID - 1).ToString();
 
             if (!_emppIDs.ContainsKey(key)) return;
 
             var sendId = _emppIDs[key];
+
+            WriteSystemErrorLog.ntWriteLogSystemTxt("提交状态:msgId=" + sm.MsgID + ",seqId=" + sm.SequenceID + ",result=" + sm.Result + ",emmp seqId=" + _empp.SequenceID);
+
             _clsGetData.SetTable(String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',短信ID = '{1}',时间 = now() WHERE ID = {2}", sm.Result,sm.MsgID, sendId));
         }
 

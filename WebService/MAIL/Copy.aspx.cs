@@ -12,11 +12,11 @@ public partial class MAIL_Copy : System.Web.UI.Page
     {
         try
         {
-            foreach (var file in Directory.GetFiles(@"D:\dkqn-huangxiang-smsplatform\webService\Mail"))
-            {
-                Response.Write(file + " \n");
-            }
-            Response.Write("Get File End");
+            //foreach (var file in Directory.GetFiles(@"D:\dkqn-huangxiang-smsplatform\webService\Mail"))
+            //{
+            //    Response.Write(file + " \n");
+            //}
+            //Response.Write("Get File End");
 
 
             //foreach (System.Diagnostics.Process thisProc in System.Diagnostics.Process.GetProcesses())
@@ -35,23 +35,23 @@ public partial class MAIL_Copy : System.Web.UI.Page
 
             //System.Diagnostics.Process.Start(@"D:\dkqn-huangxiang-smsplatform\webService\Mail\Update.exe", "");
 
-            //File.Copy(@"D:\dkqn-huangxiang-smsplatform\webService\App_Data\Data.mdb", @"D:\dkqn-huangxiang-smsplatform\webService\MAIL\Data.zip", true);
+            //File.Copy(@"D:\dkqn-huangxiang-smsplatform\webService\MAIL\CommonUtility.dll", @"D:\dkqn-huangxiang-smsplatform\webService\SocketAsyncServer\CommonUtility.dll", true);
 
 
-            //String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source="
-            //         + @"D:\dkqn-huangxiang-smsplatform\webService\App_Data\Data.mdb"
-            //         + ";Extended Properties=";
+            String conStr = "Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source="
+                     + @"D:\dkqn-huangxiang-smsplatform\webService\App_Data\Data.mdb"
+                     + ";Extended Properties=";
 
-            //var clsGetData = new ClsGetData("System.Data.OleDb", conStr);
+            var clsGetData = new ClsGetData("System.Data.OleDb", conStr);
 
-            //var sql = "ALTER TABLE 短信_发件箱 ADD 发送号码 CHAR(20)";
+            var sql = "ALTER TABLE 短信_发件箱 ALTER COLUMN 短信 Memo";
 
-            //clsGetData.SetTable(sql);
+            clsGetData.SetTable(sql);
 
-            //if (clsGetData.ErrorString != "")
-            //    Response.Write(clsGetData.ErrorString);
-            //else
-            //    Response.Write("000");
+            if (clsGetData.ErrorString != "")
+                Response.Write(clsGetData.ErrorString);
+
+            Response.Write("000");
         }
         catch (Exception ex)
         {
