@@ -28,6 +28,7 @@ namespace SocketAsyncServer
         private string _EmppPassword = "";
 
         private Dictionary<string, int> _emppIDs = new Dictionary<string, int>();
+        private Dictionary<int, int> _SendCounts = new Dictionary<int, int>();
 
         private int _ConnectCount = 0;
         private bool _IsPatrol = false;
@@ -183,23 +184,28 @@ namespace SocketAsyncServer
                         foreach (var mob in aMobs.Where(mob => (mob.Length == 11)))
                         {
                             var sendId = InsertSend(mob, message, "SENDING", serviceId);
+                            if (sendId <= 0) continue;
 
-                            for (var i = 0; i < 3; i++)
+                            _SendCounts[sendId] = 0;
+
+                            while(true)
                             {
                                 if (SendSms(mob, message, serviceId, sendId))
                                     break;
 
                                 Thread.Sleep(10000);
 
-                                var o = _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId));
+                                //var o = _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId));
 
-                                if ((o != null) && (o.ToString() == ""))
-                                    _clsGetData.SetTable(
-                                        String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',时间 = now() WHERE ID = {1}", "FAILED",
-                                            sendId));
-                                else
-                                    break;
+                                //if ((o != null) && (o.ToString() == ""))
+                                //    _clsGetData.SetTable(
+                                //        String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',时间 = now() WHERE ID = {1}", "FAILED",
+                                //            sendId));
+                                //else
+                                //    break;
                             }
+
+                            Thread.Sleep(2000);
                         }
 
                         var bSend = Encoding.UTF8.GetBytes("Send Complete.");
@@ -287,6 +293,17 @@ namespace SocketAsyncServer
         {
             try
             {
+                if (_SendCounts[sendId] > 3)
+                {
+                    _clsGetData.SetTable(
+                                        String.Format("UPDATE 短信_发件箱 SET 状态 = '{0}',时间 = now() WHERE ID = {1}", "FAILED",
+                                            sendId));
+
+                    WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：发送次数超过3次。");
+
+                    return true;
+                }
+
                 ShortMessage shortMsg = new ShortMessageClass();
                 shortMsg.srcID = EmppAccountId;
                 shortMsg.content = pMessage;
@@ -304,22 +321,24 @@ namespace SocketAsyncServer
                     WriteSystemErrorLog.ntWriteLogSystemTxt("发送前状态：seqId=" + _empp.SequenceID + ",msgId=" + _empp.MsgID + ",电话=" + mob + ",内容=" + pMessage + ",用户=" + serviceId);
 
                     _emppIDs[_empp.SequenceID] = sendId;
-                            
+
+                    _SendCounts[sendId]++;
                     _empp.submit(shortMsg);
 
-                    var msgId =
-                        _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId)).ToString();
+                    return true;
+                    //var msgId =
+                    //    _clsGetData.GetValue(String.Format("SELECT 短信ID FROM 短信_发件箱 WHERE ID = {0}", sendId)).ToString();
 
-                    if (msgId == "")
-                    {
-                        WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：短信未能提交到服务器。");
+                    //if (msgId == "")
+                    //{
+                    //    WriteSystemErrorLog.ntWriteLogSystemTxt("Empp发送失败。代码：短信未能提交到服务器。");
 
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    //    return false;
+                    //}
+                    //else
+                    //{
+                    //    return true;
+                    //}
                 }
                 else
                 {
